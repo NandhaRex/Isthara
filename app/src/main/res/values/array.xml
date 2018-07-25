@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="mdcolor_300">
+        <item name="red_300" type="color">#f36c60</item>
+        <item name="pink_300" type="color">#f06292</item>
+        <item name="deep_purple_300" type="color">#9575cd</item>
+        <item name="blue_300" type="color">#91a7ff</item>
+        <item name="orange_300" type="color">#ffb74d</item>
+        <item name="deep_orange_300" type="color">#ff8a65</item>
+        <item name="brown_300" type="color">#a1887f</item>
+    </array>
+
+</resources>

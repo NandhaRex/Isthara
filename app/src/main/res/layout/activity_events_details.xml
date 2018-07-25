@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.tao.isthara.Activities.HelpDeskCreateNew.Activity.HelpDeskCreateNewActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/banner"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/img_zumba" />
+
+        <ScrollView
+            android:id="@+id/form"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/banner"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="vertical">
+
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TableRow android:layout_margin="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Kushi" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:text="Tuesday"
+                            android:textStyle="bold"
+                            android:paddingLeft="20dp"
+                            android:textSize="15dp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:text="7.30 AM"
+                            android:textStyle="bold"
+                            android:paddingLeft="10dp"
+                            android:textSize="15dp" />
+                    </TableRow>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/colorPrimaryDark"/>
+                    <TableRow android:layout_margin="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Madhava Hills" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:text="Wednesday"
+                            android:textStyle="bold"
+                            android:paddingLeft="20dp"
+                            android:textSize="15dp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:text="7.30 PM"
+                            android:textStyle="bold"
+                            android:paddingLeft="10dp"
+                            android:textSize="15dp" />
+                    </TableRow>
+                    <TableRow android:layout_margin="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:text="Saturday"
+                            android:textStyle="bold"
+                            android:paddingLeft="20dp"
+                            android:textSize="15dp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:text="8.00 AM"
+                            android:textStyle="bold"
+                            android:paddingLeft="10dp"
+                            android:textSize="15dp" />
+                    </TableRow>
+                    <TableRow android:layout_margin="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:text="Saturday"
+                            android:textStyle="bold"
+                            android:paddingLeft="20dp"
+                            android:textSize="15dp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:text="8.00 PM"
+                            android:textStyle="bold"
+                            android:paddingLeft="10dp"
+                            android:textSize="15dp" />
+                    </TableRow>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/colorPrimaryDark"/>
+                    <TableRow android:layout_margin="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Charan" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:paddingLeft="20dp"
+                            android:text="Saturday"
+                            android:textStyle="bold"
+                            android:inputType="textCapSentences"
+                            android:textSize="15dp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:paddingLeft="10dp"
+                            android:text="9.30 PM"
+                            android:textStyle="bold"
+                            android:inputType="textCapSentences"
+                            android:textSize="15dp" />
+                    </TableRow>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/colorPrimaryDark"/>
+                    <TableRow android:layout_margin="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Siva Residency" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:paddingLeft="20dp"
+                            android:text="Sunday"
+                            android:textStyle="bold"
+                            android:inputType="textCapSentences"
+                            android:textSize="15dp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:paddingLeft="10dp"
+                            android:text="8.00 AM"
+                            android:textStyle="bold"
+                            android:inputType="textCapSentences"
+                            android:textSize="15dp" />
+                    </TableRow>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/colorPrimaryDark"/>
+                    <TableRow android:layout_margin="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sai Balaji" />
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:text="Saturday"
+                            android:textStyle="bold"
+                            android:paddingLeft="20dp"
+                            android:textSize="15dp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:text="9.30 AM"
+                            android:textStyle="bold"
+                            android:paddingLeft="10dp"
+                            android:textSize="15dp" />
+                    </TableRow>
+                    <TableRow android:layout_margin="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:text="Sunday"
+                            android:textStyle="bold"
+                            android:paddingLeft="20dp"
+                            android:textSize="15dp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:text="9.30 AM"
+                            android:textStyle="bold"
+                            android:paddingLeft="10dp"
+                            android:textSize="15dp" />
+                    </TableRow>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/colorPrimaryDark"/>
+                </TableLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

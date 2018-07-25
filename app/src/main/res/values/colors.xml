@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#333333</color>
+    <color name="colorAccent">#C4C4C4</color>
+
+    <color name="starColor">#57a6f0</color>
+    <color name="noteDescriptionTextColor">#57a6f0</color>
+    <color name="titleTextColor">#D9141627</color>
+    <color name="descriptionTextColor">#80141627</color>
+    <color name="commentTextColor">#D9141627</color>
+
+    <color name="progressColor">#2a99ba</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="main_activity_unfocus_circle_color">#adadad</color>
+    <color name="main_activity_background_color">#f8f8f8</color>
+
+    <color name="sendotp_grey">#636363</color>
+    <color name="sendotp_medium_grey">#B0B0B0</color>
+    <color name="sendotp_light_grey">#D9D9D9</color>
+</resources>

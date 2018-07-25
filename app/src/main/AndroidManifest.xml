@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tao.isthara">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <meta-data android:name="com.onesignal.NotificationOpened.DEFAULT" android:value="DISABLE" />
+        <activity
+            android:name=".Activities.Splash.Activity.SplashActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.Login.Activity.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".Activities.Login.Activity.OTPVerificationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".Activities.Home.Activity.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.HelpDeskList.Activity.HelpDeskListActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_help_desk_list" />
+        <activity android:name=".Activities.HelpDeskCreateNew.Activity.HelpDeskCreateNewActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.Profile.ProfileActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".Activities.HelpDeskCreateNew.Activity.CategoriesRecyclerViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.HelpDeskCreateNew.Activity.SubCategoriesRecyclerViewActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".Activities.HelpDeskView.Activity.HelpDeskViewActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".Activities.FoodMenu.Activity.FoodMenuActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".Activities.HelpDeskList.Activity.EMP_HelpDeskListActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".Activities.Events.Activity.EventListActivity"
+            android:screenOrientation="portrait"/>
+
+
+        <activity android:name=".Activities.Events.Activity.EventDetailsActivity"
+            android:screenOrientation="portrait"/>
+
+        <meta-data
+            android:name="sendotp.key"
+            android:value="@string/sendotp_key" />
+    </application>
+
+</manifest>
