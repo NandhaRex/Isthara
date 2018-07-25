@@ -10,16 +10,19 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -57,6 +60,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Converter;
 import retrofit2.Response;
 
 public class HelpDeskViewActivity extends AppCompatActivity implements RatingDialogListener {
@@ -67,7 +71,7 @@ public class HelpDeskViewActivity extends AppCompatActivity implements RatingDia
     Button btnResolved, btnCompleted, btnNotOurScope;
 
     RatingBar ratingBar;
-    TextView txtRating;
+    TextView txtRating,txtCommentBox,lblComment,txtMobileNumber;
 
     String isFrom="";
     int mHelpDeskID, mRating;
@@ -87,8 +91,8 @@ public class HelpDeskViewActivity extends AppCompatActivity implements RatingDia
 
         isFrom = getIntent().getExtras().getString("ISFROM");
         mHelpDeskID = getIntent().getExtras().getInt("HELPDESKID", 0);
+       // mUserType = getIntent().getExtras().getString("UserType",null);
         //mRating = getIntent().getExtras().getInt("RATING", 0);
-
 
         txtToken = (TextView) findViewById(R.id.token);
         txtIssueDate = (TextView) findViewById(R.id.issue_date);
@@ -98,11 +102,24 @@ public class HelpDeskViewActivity extends AppCompatActivity implements RatingDia
         txtTitle = (TextView) findViewById(R.id.title);
         txtDesc = (TextView) findViewById(R.id.desc);
         txtProperty = (TextView) findViewById(R.id.property);
-        txtRoomNo = (TextView) findViewById(R.id.roomno);
+       // txtRoomNo = (TextView) findViewById(R.id.roomno);
         txtBedName = (TextView) findViewById(R.id.bedname);
-
+        lblComment = (TextView) findViewById(R.id.lblComment);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         txtRating = (TextView) findViewById(R.id.txt_rating);
+        txtCommentBox = (EditText)findViewById(R.id.txt_Comments);
+        txtMobileNumber = (TextView)findViewById(R.id.txtMoblieNumber);
+
+        if (_appPrefs.getUserType().equals("Worker"))
+        {
+            lblComment.setVisibility(View.VISIBLE);
+            txtCommentBox.setVisibility(View.VISIBLE);
+        }
+        else
+            {
+                lblComment.setVisibility(View.GONE);
+                txtCommentBox.setVisibility(View.GONE);
+            }
 
         btnCompleted = (Button) findViewById(R.id.btn_completed);
         btnCompleted.setOnClickListener(new View.OnClickListener() {
@@ -303,7 +320,7 @@ public class HelpDeskViewActivity extends AppCompatActivity implements RatingDia
         ResolveTicketRequest resolveTicketRequest = new ResolveTicketRequest();
         resolveTicketRequest.setUserId(Integer.parseInt(_appPrefs.getUserID()));
         resolveTicketRequest.setHelpDeskId(mHelpDeskID);
-        resolveTicketRequest.setResolution("");
+        resolveTicketRequest.setResolution(txtCommentBox.getText().toString());
 
 
         final ApiInterface apiService =
@@ -488,7 +505,6 @@ public class HelpDeskViewActivity extends AppCompatActivity implements RatingDia
 
                     IssueListResponseRecords ilr = response.body().getRecordDetails();
 
-
                             txtToken.setText(ilr.getIssueNumber());
                             txtIssueDate.setText(getFormattedDate(ilr.getIssueDate()));
                             txtStatus.setText(ilr.getStatus());
@@ -497,7 +513,7 @@ public class HelpDeskViewActivity extends AppCompatActivity implements RatingDia
                             txtTitle.setText(ilr.getTitle());
                             txtDesc.setText(ilr.getDescription());
                             txtProperty.setText(ilr.getProperty());
-                            txtRoomNo.setText(ilr.getRoomNo());
+                            txtMobileNumber.setText(String.valueOf(ilr.getMobileNo()));
                             txtBedName.setText(ilr.getBedName());
 
                             mRating = ilr.getRating();

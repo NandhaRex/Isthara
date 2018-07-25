@@ -67,6 +67,11 @@ public class IssueListResponseRecords {
     @Expose
     private Integer rating;
 
+    @SerializedName("MobileNo")
+    @Expose
+    private long mobileNo;
+
+
 
     public Integer getHelpDeskId() {
         return helpDeskId;
@@ -214,6 +219,10 @@ public class IssueListResponseRecords {
 
     public String getRoomNo() {
         return roomNo;
+    }
+
+    public long getMobileNo() {
+        return mobileNo;
     }
 
     public void setRoomNo(String roomNo) {

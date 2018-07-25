@@ -18,25 +18,30 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="50dp"
-            android:focusableInTouchMode="true"
+            android:fillViewport="true"
             android:focusable="true"
-            android:fillViewport="true">
+            android:focusableInTouchMode="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:orientation="vertical">
 
                 <TableLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <TableRow android:layout_margin="5dp">
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -52,16 +57,17 @@
                                 android:textSize="15dp"
                                 android:textStyle="bold" />
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Property:" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Property:" />
 
                             <TextView
                                 android:id="@+id/property"
@@ -75,11 +81,12 @@
                     </TableRow>
 
                     <TableRow android:layout_margin="5dp">
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -88,23 +95,25 @@
 
 
                             <TextView
-                                android:id="@+id/roomno"
+                                android:id="@+id/txtMoblieNumber"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapSentences"
-                                android:text="9025497667"
+                                android:text=""
                                 android:textSize="15dp"
                                 android:textStyle="bold" />
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_weight="1">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Bed Name:" />
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Bed Name:" />
 
 
                             <TextView
@@ -119,15 +128,17 @@
                     </TableRow>
 
                     <TableRow android:layout_margin="5dp">
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_weight="1">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Request Date:" />
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Request Date:" />
 
 
                             <TextView
@@ -139,15 +150,17 @@
                                 android:textSize="15dp"
                                 android:textStyle="bold" />
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_weight="1">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Current Status:" />
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Current Status:" />
 
                             <TextView
                                 android:id="@+id/status"
@@ -161,16 +174,19 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </TableRow>
+
                     <TableRow android:layout_margin="5dp">
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_weight="1">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Department:" />
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Department:" />
 
                             <TextView
                                 android:id="@+id/department"
@@ -182,16 +198,17 @@
                                 android:textSize="15dp"
                                 android:textStyle="bold" />
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Service:" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Service:" />
 
 
                             <TextView
@@ -212,7 +229,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="10dp"
-                    android:background="@color/colorPrimaryDark"/>
+                    android:background="@color/colorPrimaryDark" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -220,11 +237,12 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:text="Subject:" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="Subject:" />
 
 
                     <TextView
@@ -239,66 +257,72 @@
                         android:textStyle="bold" />
 
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Support Required:" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:text="Support Required:" />
 
-
-                        <TextView
-                            android:id="@+id/desc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="textMultiLine"
-                            android:gravity="left"
-                            android:text=""
-                            android:textStyle="bold"
-                            android:paddingLeft="10dp"
-                            android:paddingTop="5dp"
-                            android:textSize="15dp" />
+                    <TextView
+                        android:id="@+id/desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:inputType="textMultiLine"
+                        android:paddingLeft="10dp"
+                        android:paddingTop="5dp"
+                        android:text=""
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="20dp"
-                    android:background="@color/colorPrimaryDark"/>
+                    android:background="@color/colorPrimaryDark" />
 
 
                 <TextView
+                    android:id="@+id/lblComment"
                     android:layout_width="wrap_content"
-                    android:text="Comments"
-                    android:layout_height="wrap_content" />
-                <android.support.v7.widget.AppCompatEditText
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Comments: (optional)" />
+
+                <EditText
                     android:id="@+id/txt_Comments"
                     android:layout_width="match_parent"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@null"
+                    android:hint="Enter the comments here"
                     android:layout_height="wrap_content"
-                    android:text="AC Not working properly with som water leakage" />
+                    android:text=""/>
             </LinearLayout>
 
         </ScrollView>
 
         <android.support.v7.widget.AppCompatRatingBar
+            android:id="@+id/ratingBar"
+            style="@style/CustomRatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/CustomRatingBar"
-            android:id="@+id/ratingBar"
-            android:gravity="center"
-            android:progressTint="#F9BB28"
-            android:numStars="5"
             android:layout_above="@+id/txt_rating"
             android:layout_centerHorizontal="true"
-            android:isIndicator="true"
             android:focusable="false"
-            android:visibility="gone"
+            android:gravity="center"
+            android:isIndicator="true"
+            android:numStars="5"
             android:progressBackgroundTint="@color/colorAccent"
+            android:progressTint="#F9BB28"
             android:secondaryProgressTint="@color/colorAccent"
-            app:layout_constraintRight_toRightOf="parent"
+            android:stepSize="1"
+            android:visibility="gone"
             app:layout_constraintHorizontal_bias="0.0"
-            android:stepSize="1"/>
+            app:layout_constraintRight_toRightOf="parent" />
 
         <!--<RatingBar
             android:id="@+id/ratingBar"
@@ -314,49 +338,52 @@
             android:id="@+id/txt_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:visibility="gone"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="50dp"/>
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="50dp"
+            android:text=""
+            android:visibility="gone" />
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+
+            <Button
+                android:id="@+id/btn_completed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_alignParentBottom="true"
-                android:weightSum="2">
+                android:layout_weight="2"
+                android:background="@color/colorPrimaryDark"
+                android:text="CLOSE TICKET"
+                android:textColor="@color/white"
+                android:visibility="gone" />
 
+            <Button
+                android:id="@+id/btn_not_our_scope"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:text="NOT OUR SCOPE"
+                android:textColor="@color/white"
+                android:visibility="gone" />
 
-                <Button
-                    android:id="@+id/btn_completed"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:visibility="gone"
-                    android:background="@color/colorPrimaryDark"
-                    android:text="CLOSE TICKET"
-                    android:textColor="@color/white" />
-                <Button
-                    android:id="@+id/btn_not_our_scope"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    android:background="@color/colorPrimaryDark"
-                    android:text="NOT OUR SCOPE"
-                    android:textColor="@color/white" />
-                <Button
-                    android:id="@+id/btn_resolved"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    android:background="@android:color/holo_green_dark"
-                    android:text="RESOLVED"
-                    android:textColor="@color/white" />
+            <Button
+                android:id="@+id/btn_resolved"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/holo_green_dark"
+                android:text="RESOLVED"
+                android:textColor="@color/white"
+                android:visibility="gone" />
 
-            </LinearLayout>
+        </LinearLayout>
+
         <ProgressBar
             android:id="@+id/progress"
             style="?android:attr/progressBarStyleLarge"
@@ -364,7 +391,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
-            android:visibility="gone"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:visibility="gone" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

@@ -192,7 +192,14 @@ public class LoginActivity extends AppCompatActivity {
                     boolean isActive = lr.isIsActive();
                     if(isActive) {
                         _appPrefs.saveUserID(lr.getUserId());
-                        _appPrefs.saveBlockID("" + lr.getBlockMaster().getBlockId());
+                        if (lr.getBlockMaster() != null)
+                        {
+                            _appPrefs.saveBlockID("" + lr.getBlockMaster().getBlockId());
+                        }
+                        else
+                        {
+                            _appPrefs.saveBlockID("");
+                        }
                         _appPrefs.saveUserType(lr.getUserType());
 
                         openActivity(getE164Number());
