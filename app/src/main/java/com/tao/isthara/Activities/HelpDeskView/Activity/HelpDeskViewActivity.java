@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -68,16 +69,17 @@ public class HelpDeskViewActivity extends AppCompatActivity implements RatingDia
     private AppPreferences _appPrefs;
     private ConstraintLayout mCoordinatorLayout;
 
-    TextView txtToken, txtIssueDate, txtStatus, txtDepartment, txtService, txtTitle, txtDesc, txtProperty, txtRoomNo,txtBedName ;
+    TextView txtToken, txtIssueDate, txtStatus, txtDepartment, txtService, txtTitle, txtDesc, txtProperty, txtRoomNo, txtBedName;
     Button btnResolved, btnCompleted, btnNotOurScope;
 
     RatingBar ratingBar;
-    TextView txtRating,txtCommentBox,lblComment,txtMobileNumber;
+    TextView txtRating, txtCommentBox, lblComment, txtMobileNumber;
 
-    String isFrom="";
+    String isFrom = "";
     int mHelpDeskID, mRating;
     private ProgressBar mProgressView;
     private TextView lblShowComment;
+    private LinearLayout layComment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,11 +91,11 @@ public class HelpDeskViewActivity extends AppCompatActivity implements RatingDia
         _appPrefs = new AppPreferences(getApplicationContext());
 
         mCoordinatorLayout = (ConstraintLayout) findViewById(R.id.coordinatorLayout);
-        mProgressView  =(ProgressBar) findViewById(R.id.progress);
+        mProgressView = (ProgressBar) findViewById(R.id.progress);
 
         isFrom = getIntent().getExtras().getString("ISFROM");
         mHelpDeskID = getIntent().getExtras().getInt("HELPDESKID", 0);
-       // mUserType = getIntent().getExtras().getString("UserType",null);
+        // mUserType = getIntent().getExtras().getString("UserType",null);
         //mRating = getIntent().getExtras().getInt("RATING", 0);
 
         txtToken = (TextView) findViewById(R.id.token);
@@ -104,25 +106,23 @@ public class HelpDeskViewActivity extends AppCompatActivity implements RatingDia
         txtTitle = (TextView) findViewById(R.id.title);
         txtDesc = (TextView) findViewById(R.id.desc);
         txtProperty = (TextView) findViewById(R.id.property);
-       // txtRoomNo = (TextView) findViewById(R.id.roomno);
+        // txtRoomNo = (TextView) findViewById(R.id.roomno);
+        layComment = (LinearLayout) findViewById(R.id.layComment);
         txtBedName = (TextView) findViewById(R.id.bedname);
         lblComment = (TextView) findViewById(R.id.lblComment);
         lblShowComment = (TextView) findViewById(R.id.lblShowComment);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         txtRating = (TextView) findViewById(R.id.txt_rating);
-        txtCommentBox = (EditText)findViewById(R.id.txt_Comments);
-        txtMobileNumber = (TextView)findViewById(R.id.txtMoblieNumber);
+        txtCommentBox = (EditText) findViewById(R.id.txt_Comments);
+        txtMobileNumber = (TextView) findViewById(R.id.txtMoblieNumber);
 
-        if (_appPrefs.getUserType().equals("Worker"))
-        {
+        if (_appPrefs.getUserType().equals("Worker")) {
             lblComment.setVisibility(View.VISIBLE);
             txtCommentBox.setVisibility(View.VISIBLE);
+        } else {
+            lblComment.setVisibility(View.GONE);
+            txtCommentBox.setVisibility(View.GONE);
         }
-        else
-            {
-                lblComment.setVisibility(View.GONE);
-                txtCommentBox.setVisibility(View.GONE);
-            }
 
         btnCompleted = (Button) findViewById(R.id.btn_completed);
         btnCompleted.setOnClickListener(new View.OnClickListener() {
@@ -162,11 +162,7 @@ public class HelpDeskViewActivity extends AppCompatActivity implements RatingDia
         });
 
 
-
         getHelpDeskDetails();
-
-
-
 
 
     }
@@ -390,7 +386,6 @@ public class HelpDeskViewActivity extends AppCompatActivity implements RatingDia
         declinedTicketRequest.setHelpDeskId(mHelpDeskID);
 
 
-
         final ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
@@ -447,7 +442,7 @@ public class HelpDeskViewActivity extends AppCompatActivity implements RatingDia
     }
 
     private void submitRating(int mHelpDeskID, int mUserRating) {
-        final String API_KEY = Global.BASE_URL + "SaveRatingByHelpDeskId?HelpDeskId="+mHelpDeskID+"&Rating="+mUserRating+"";
+        final String API_KEY = Global.BASE_URL + "SaveRatingByHelpDeskId?HelpDeskId=" + mHelpDeskID + "&Rating=" + mUserRating + "";
 
         final ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
@@ -492,7 +487,7 @@ public class HelpDeskViewActivity extends AppCompatActivity implements RatingDia
 
     private void getHelpDeskDetails() {
         showProgress(true);
-        final String API_KEY = Global.BASE_URL + "GetHelpDeskDetailsByHelpDeskId?HelpDeskId="+mHelpDeskID;
+        final String API_KEY = Global.BASE_URL + "GetHelpDeskDetailsByHelpDeskId?HelpDeskId=" + mHelpDeskID;
 
         final ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
@@ -508,77 +503,85 @@ public class HelpDeskViewActivity extends AppCompatActivity implements RatingDia
 
                     IssueListResponseRecords ilr = response.body().getRecordDetails();
 
-                            txtToken.setText(ilr.getIssueNumber());
-                            txtIssueDate.setText(getFormattedDate(ilr.getIssueDate()));
-                            txtStatus.setText(ilr.getStatus());
-                            txtDepartment.setText(ilr.getCategoryName());
-                            txtService.setText(ilr.getSubCategoryName());
-                            txtTitle.setText(ilr.getTitle());
-                            txtDesc.setText(ilr.getDescription());
-                            txtProperty.setText(ilr.getProperty());
-                            txtMobileNumber.setText(String.valueOf(ilr.getMobileNo()));
-                            txtBedName.setText(ilr.getBedName());
-                            lblShowComment.setText(ilr.getResolution());
-                            mRating = ilr.getRating();
+                    txtToken.setText(ilr.getIssueNumber());
+                    txtIssueDate.setText(getFormattedDate(ilr.getIssueDate()));
+                    txtStatus.setText(ilr.getStatus());
+                    txtDepartment.setText(ilr.getCategoryName());
+                    txtService.setText(ilr.getSubCategoryName());
+                    txtTitle.setText(ilr.getTitle());
+                    txtDesc.setText(ilr.getDescription());
+                    txtProperty.setText(ilr.getProperty());
+                    txtMobileNumber.setText(String.valueOf(ilr.getMobileNo()));
+                    txtBedName.setText(ilr.getBedName());
+                    lblShowComment.setText(ilr.getResolution());
+                    mRating = ilr.getRating();
 
-                            if(mRating>0) {
-                                ratingBar.setVisibility(View.VISIBLE);
-                                txtRating.setVisibility(View.VISIBLE);
-                                ratingBar.setRating(mRating);
-                                if (mRating == 1) {
-                                    txtRating.setText("Bad");
-                                } else if (mRating == 2) {
-                                    txtRating.setText("Not good");
-                                } else if (mRating == 3) {
-                                    txtRating.setText("Quite ok");
-                                } else if (mRating == 4) {
-                                    txtRating.setText("Very Good");
-                                } else if (mRating == 5) {
-                                    txtRating.setText("Excellent !!!");
-                                }
-                            }else{
-                                ratingBar.setVisibility(View.GONE);
-                                txtRating.setVisibility(View.GONE);
-                            }
 
-                            if(isFrom.equals("Resource")){
-                                btnCompleted.setVisibility(View.GONE);
-                                btnResolved.setVisibility(View.VISIBLE);
-                                btnNotOurScope.setVisibility(View.GONE);
-                                try {
-                                    txtStatus.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
-                                }catch (Exception e){
+                    if (TextUtils.isEmpty(ilr.getResolution()) && !isFrom.equals("Resource"))
+                    {
+                        layComment.setVisibility(View.GONE);
+                    }
+                    if (mRating > 0) {
+                        ratingBar.setVisibility(View.VISIBLE);
+                        txtRating.setVisibility(View.VISIBLE);
+                        ratingBar.setRating(mRating);
+                        if (mRating == 1) {
+                            txtRating.setText("Bad");
+                        } else if (mRating == 2) {
+                            txtRating.setText("Not good");
+                        } else if (mRating == 3) {
+                            txtRating.setText("Quite ok");
+                        } else if (mRating == 4) {
+                            txtRating.setText("Very Good");
+                        } else if (mRating == 5) {
+                            txtRating.setText("Excellent !!!");
+                        }
+                    } else {
+                        ratingBar.setVisibility(View.GONE);
+                        txtRating.setVisibility(View.GONE);
+                    }
 
-                                }
+                    if (isFrom.equals("Resource")) {
+                        btnCompleted.setVisibility(View.GONE);
+                        btnResolved.setVisibility(View.VISIBLE);
+                        btnNotOurScope.setVisibility(View.GONE);
+                        try {
+                            txtStatus.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+                        } catch (Exception e) {
 
-                            }else if(isFrom.equals("Available")){
-                                if(mRating<=0){
-                                    showDialog();
-                                }
-                                lblComment.setVisibility(View.VISIBLE);
-                                lblComment.setText("Comments:");
-                                lblShowComment.setVisibility(View.VISIBLE);
-                                btnCompleted.setVisibility(View.GONE);
-                                btnResolved.setVisibility(View.GONE);
-                                btnNotOurScope.setVisibility(View.GONE);
-                                try {
-                                    txtStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
-                                }catch (Exception e){
+                        }
 
-                                }
-                            }else{
-                                txtCommentBox.setVisibility(View.GONE);
-                                lblShowComment.setVisibility(View.VISIBLE);
-                                lblComment.setText("Comments:");
-                                btnCompleted.setVisibility(View.GONE);
-                                btnResolved.setVisibility(View.GONE);
-                                btnNotOurScope.setVisibility(View.GONE);
-                                try {
-                                    txtStatus.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
-                                }catch (Exception e){
+                    } else if (isFrom.equals("Available")) {
+                        if (mRating <= 0) {
+                            showDialog();
+                        }
+                        lblComment.setVisibility(View.VISIBLE);
+                        lblComment.setText("Comments:");
+                        lblShowComment.setVisibility(View.VISIBLE);
+                        btnCompleted.setVisibility(View.GONE);
+                        btnResolved.setVisibility(View.GONE);
+                        btnNotOurScope.setVisibility(View.GONE);
+                        try {
+                            txtStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                        } catch (Exception e) {
 
-                                }
-                            }
+                        }
+                    } else {
+                        txtCommentBox.setVisibility(View.GONE);
+                        lblShowComment.setVisibility(View.VISIBLE);
+//                        if (TextUtils.isEmpty(ilr.getResolution())) {
+//                            layComment.setVisibility(View.GONE);
+//                        }
+                        lblComment.setText("Comments:");
+                        btnCompleted.setVisibility(View.GONE);
+                        btnResolved.setVisibility(View.GONE);
+                        btnNotOurScope.setVisibility(View.GONE);
+                        try {
+                            txtStatus.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+                        } catch (Exception e) {
+
+                        }
+                    }
 
                     showProgress(false);
                 } else {
