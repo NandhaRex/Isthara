@@ -17,6 +17,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -76,6 +77,7 @@ public class HelpDeskViewActivity extends AppCompatActivity implements RatingDia
     String isFrom="";
     int mHelpDeskID, mRating;
     private ProgressBar mProgressView;
+    private TextView lblShowComment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +107,7 @@ public class HelpDeskViewActivity extends AppCompatActivity implements RatingDia
        // txtRoomNo = (TextView) findViewById(R.id.roomno);
         txtBedName = (TextView) findViewById(R.id.bedname);
         lblComment = (TextView) findViewById(R.id.lblComment);
+        lblShowComment = (TextView) findViewById(R.id.lblShowComment);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         txtRating = (TextView) findViewById(R.id.txt_rating);
         txtCommentBox = (EditText)findViewById(R.id.txt_Comments);
@@ -515,7 +518,7 @@ public class HelpDeskViewActivity extends AppCompatActivity implements RatingDia
                             txtProperty.setText(ilr.getProperty());
                             txtMobileNumber.setText(String.valueOf(ilr.getMobileNo()));
                             txtBedName.setText(ilr.getBedName());
-
+                            lblShowComment.setText(ilr.getResolution());
                             mRating = ilr.getRating();
 
                             if(mRating>0) {
@@ -552,6 +555,9 @@ public class HelpDeskViewActivity extends AppCompatActivity implements RatingDia
                                 if(mRating<=0){
                                     showDialog();
                                 }
+                                lblComment.setVisibility(View.VISIBLE);
+                                lblComment.setText("Comments:");
+                                lblShowComment.setVisibility(View.VISIBLE);
                                 btnCompleted.setVisibility(View.GONE);
                                 btnResolved.setVisibility(View.GONE);
                                 btnNotOurScope.setVisibility(View.GONE);
@@ -561,6 +567,9 @@ public class HelpDeskViewActivity extends AppCompatActivity implements RatingDia
 
                                 }
                             }else{
+                                txtCommentBox.setVisibility(View.GONE);
+                                lblShowComment.setVisibility(View.VISIBLE);
+                                lblComment.setText("Comments:");
                                 btnCompleted.setVisibility(View.GONE);
                                 btnResolved.setVisibility(View.GONE);
                                 btnNotOurScope.setVisibility(View.GONE);
