@@ -7,10 +7,10 @@ apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 android {
     signingConfigs {
         config {
-            storeFile file('D:/Experiment/Android/Isthara/Keystore/isthara.jks')
             keyAlias 'istharakey'
             keyPassword 'Simply@1748'
             storePassword 'Simply@1748'
+            storeFile file('E:/Work/Android/Isthara/Keystore/isthara.jks')
         }
     }
     compileSdkVersion 27
@@ -69,6 +69,6 @@ dependencies {
     //Ratting dialog
     implementation 'com.stepstone.apprating:app-rating:2.2.0'
     /*    testImplementation 'junit:junit:4.12'
-            androidTestImplementation 'com.android.support.test:runner:1.0.2'
-            androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'*/
+                        androidTestImplementation 'com.android.support.test:runner:1.0.2'
+                        androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'*/
 }
