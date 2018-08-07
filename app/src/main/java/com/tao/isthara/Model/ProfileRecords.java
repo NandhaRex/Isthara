@@ -33,6 +33,9 @@ public class ProfileRecords {
     @SerializedName("MobileNo")
     @Expose
     private String mobileNo;
+    @SerializedName("SecondaryMobileNo")
+    @Expose
+    private String seconMobileNo;
     @SerializedName("Status")
     @Expose
     private String status;
@@ -88,6 +91,15 @@ public class ProfileRecords {
     public String getProperty() {
         return property;
     }
+
+    public String getEmailId() {
+        return "abcd@gmail.com";
+    }
+
+    public String getSecMobileNumber() {
+        return seconMobileNo;
+    }
+
 
     public void setProperty(String property) {
         this.property = property;

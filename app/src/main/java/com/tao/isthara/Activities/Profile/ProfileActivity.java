@@ -18,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -50,8 +52,10 @@ public class ProfileActivity extends AppCompatActivity {
     private ProgressBar mProgressView;
     private View mFormView;
 
-    TextView txtUserName, txtRoomBlockInfo, txtEmail, txtMobile;
+    TextView txtUserName, txtRoomBlockInfo, txtProperty, txtMobile;
     Button btnLogout;
+    private EditText txtSecMobile,txtEmail;
+    private ImageButton btnEditProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +74,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         txtUserName = (TextView) findViewById(R.id.user_profile_name);
         txtRoomBlockInfo = (TextView) findViewById(R.id.room_block_info);
-        txtEmail = (TextView) findViewById(R.id.email);
+        txtProperty = (TextView) findViewById(R.id.property);
         txtMobile = (TextView) findViewById(R.id.mobile);
+        txtSecMobile = (EditText) findViewById(R.id.secmobile);
+        txtEmail = (EditText) findViewById(R.id.emailId);
 
         btnLogout =(Button) findViewById(R.id.btn_logout);
         btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +87,8 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
+
+        btnEditProfile = (ImageButton)findViewById((R.id.btn_edit));
 
         showProgress(true);
         getProfileDetails();
@@ -128,9 +136,9 @@ public class ProfileActivity extends AppCompatActivity {
                     ProfileRecords mProfile = response.body().getRecords();
                     txtUserName.setText(mProfile.getName());
                     txtRoomBlockInfo.setText(mProfile.getBedName());
-                    txtEmail.setText(mProfile.getProperty());
+                    txtProperty.setText(mProfile.getProperty());
                     txtMobile.setText(mProfile.getMobileNo());
-
+                    txtSecMobile.setText(mProfile.getSecMobileNumber());
 
                 } else {
                     showSnackbar(responsMsg);
