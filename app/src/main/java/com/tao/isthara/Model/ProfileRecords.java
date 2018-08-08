@@ -39,6 +39,9 @@ public class ProfileRecords {
     @SerializedName("Status")
     @Expose
     private String status;
+    @SerializedName("EmailId")
+    @Expose
+    private String emailId;
 
     public Integer getResidentDetailsId() {
         return residentDetailsId;
@@ -93,11 +96,16 @@ public class ProfileRecords {
     }
 
     public String getEmailId() {
-        return "abcd@gmail.com";
+        return emailId;
     }
 
     public String getSecMobileNumber() {
         return seconMobileNo;
+    }
+
+    public void setSecMobileNumber(String number)
+    {
+        this.seconMobileNo = number;
     }
 
 
@@ -129,4 +137,7 @@ public class ProfileRecords {
         this.status = status;
     }
 
+    public void setEmail(String email) {
+        this.emailId = email;
+    }
 }

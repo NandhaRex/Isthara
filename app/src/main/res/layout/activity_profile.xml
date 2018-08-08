@@ -13,13 +13,13 @@
         android:layout_height="wrap_content">
         <ImageButton
             android:id="@+id/btn_edit"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:padding="16dp"
+            android:layout_margin="10dp"
             android:elevation="2dp"
             android:layout_alignParentRight="true"
-            android:background="@null"
-            android:src="@drawable/ic_edit" />
+            android:background="@drawable/ic_edit" />
 
         <ScrollView
             android:id="@+id/form"
@@ -65,24 +65,28 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:textAlignment="center"
                     android:focusable="false"
+                    android:hint="Alternative Mobile No."
                     android:focusableInTouchMode="false"
                     android:layout_marginTop="12dp"
                     android:background="@null"
-                    android:elevation="4dp"
-                    android:text="8056832585" />
+                    android:text="" />
 
                 <EditText
                     android:id="@+id/emailId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
+                    android:singleLine="true"
                     android:layout_marginTop="12dp"
+                    android:hint="Email Id"
                     android:background="@null"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
-                    android:elevation="4dp"
-                    android:text="nandhavimal28@gmail.com" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/room_block_info"

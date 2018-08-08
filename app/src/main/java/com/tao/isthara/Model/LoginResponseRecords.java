@@ -37,6 +37,9 @@ public class LoginResponseRecords {
 	@SerializedName("ConfirmPassword")
 	private String confirmPassword;
 
+	@SerializedName("ResidentDetailsId")
+	private int residentDetailsId;
+
 	@SerializedName("Role")
 	private String role;
 
@@ -97,6 +100,10 @@ public class LoginResponseRecords {
 
 	public String getEmailId(){
 		return emailId;
+	}
+
+	public int getResidentDetailsIdId(){
+		return residentDetailsId;
 	}
 
 	public void setUserName(String userName){

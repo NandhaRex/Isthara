@@ -9,6 +9,7 @@ public class AppPreferences {
 
 
     public static final String KEY_USER_ID = "userid";
+    public static final String KEY_USER_RESIDENT_ID = "userresidentid";
     public static final String KEY_USER_BLOCK = "blockid";
     public static final String KEY_USER_TYPE = "usertype";
 
@@ -71,6 +72,13 @@ public class AppPreferences {
         _prefsEditor.commit();
     }
 
+    public int getResidentId() {
+        return _sharedPrefs.getInt(KEY_USER_RESIDENT_ID,0);
+    }
 
+    public void saveResidentId(int id) {
+        _prefsEditor.putInt(KEY_USER_RESIDENT_ID, id);
+        _prefsEditor.commit();
+    }
 
 }

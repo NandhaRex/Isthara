@@ -10,7 +10,9 @@ import com.tao.isthara.Model.IssueListResponse;
 import com.tao.isthara.Model.LoginResponse;
 import com.tao.isthara.Model.NewTokenRequest;
 import com.tao.isthara.Model.NewTokenResponse;
+import com.tao.isthara.Model.ProfileRecords;
 import com.tao.isthara.Model.ProfileResponse;
+import com.tao.isthara.Model.ProfileUpdateResponse;
 import com.tao.isthara.Model.ResolveTicketRequest;
 import com.tao.isthara.Model.ResolveTicketResponse;
 import com.tao.isthara.Model.SubCategories;
@@ -43,6 +45,9 @@ public interface ApiInterface {
 
     @POST
     Call<NewTokenResponse> getNewTokenRegister(@Url String apiKey, @Body NewTokenRequest newTokenRequest);
+
+    @POST
+    Call<ProfileUpdateResponse> updateProfiledetails(@Url String apiKey, @Body ProfileRecords profileRecords);
 
     @POST
     Call<CloseTicketResponse> getCloseTicketResponse(@Url String apiKey, @Body CloseTicketRequest closeTicketRequest);

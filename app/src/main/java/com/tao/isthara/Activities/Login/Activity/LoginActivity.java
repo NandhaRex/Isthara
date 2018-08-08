@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.msg91.sendotp.library.PhoneNumberFormattingTextWatcher;
 import com.msg91.sendotp.library.PhoneNumberUtils;
 import com.msg91.sendotp.library.internal.Iso2Phone;
+import com.tao.isthara.Activities.HelpDeskList.Activity.EMP_HelpDeskListActivity;
 import com.tao.isthara.Activities.Home.Activity.MainActivity;
 import com.tao.isthara.Activities.Splash.Activity.SplashActivity;
 import com.tao.isthara.Model.LoginResponse;
@@ -117,6 +118,18 @@ public class LoginActivity extends AppCompatActivity {
         verification.putExtra(INTENT_COUNTRY_CODE, Iso2Phone.getPhone(mCountryIso));
         startActivity(verification);
         finish();
+//        _appPrefs.saveUserIsVerified(true);
+//        if(_appPrefs.getUserType().equals("Resident")){
+//            Intent i = new Intent(getApplicationContext(), MainActivity.class);
+//            startActivity(i);
+//            finish();
+//            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+//        }else {
+//            Intent i = new Intent(getApplicationContext(), EMP_HelpDeskListActivity.class);
+//            startActivity(i);
+//            finish();
+//            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+//        }
     }
 
     private void setButtonsEnabled(boolean enabled) {
@@ -201,7 +214,7 @@ public class LoginActivity extends AppCompatActivity {
                             _appPrefs.saveBlockID("");
                         }
                         _appPrefs.saveUserType(lr.getUserType());
-
+                        _appPrefs.saveResidentId(lr.getResidentDetailsIdId());
                         openActivity(getE164Number());
 
                         /*Intent i = new Intent(getApplicationContext(), MainActivity.class);

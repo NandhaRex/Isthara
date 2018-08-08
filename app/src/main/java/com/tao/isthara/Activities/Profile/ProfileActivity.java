@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -32,6 +33,7 @@ import com.tao.isthara.Activities.Splash.Activity.SplashActivity;
 import com.tao.isthara.Model.Categories;
 import com.tao.isthara.Model.ProfileRecords;
 import com.tao.isthara.Model.ProfileResponse;
+import com.tao.isthara.Model.ProfileUpdateResponse;
 import com.tao.isthara.R;
 import com.tao.isthara.Rest.ApiClient;
 import com.tao.isthara.Rest.ApiInterface;
@@ -54,14 +56,15 @@ public class ProfileActivity extends AppCompatActivity {
 
     TextView txtUserName, txtRoomBlockInfo, txtProperty, txtMobile;
     Button btnLogout;
-    private EditText txtSecMobile,txtEmail;
+    private EditText txtSecMobile, txtEmail;
     private ImageButton btnEditProfile;
+    private boolean isEditable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        mContext =this;
+        mContext = this;
 
         getSupportActionBar().setTitle("MY PROFILE");
         getSupportActionBar().setElevation(0);
@@ -79,20 +82,73 @@ public class ProfileActivity extends AppCompatActivity {
         txtSecMobile = (EditText) findViewById(R.id.secmobile);
         txtEmail = (EditText) findViewById(R.id.emailId);
 
-        btnLogout =(Button) findViewById(R.id.btn_logout);
+        btnLogout = (Button) findViewById(R.id.btn_logout);
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
             }
         });
 
-        btnEditProfile = (ImageButton)findViewById((R.id.btn_edit));
-
+        btnEditProfile = (ImageButton) findViewById((R.id.btn_edit));
+        btnEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isEditable) {
+                    txtEmail.setEnabled(false);
+                    txtEmail.setFocusableInTouchMode(false);
+                    txtEmail.setFocusable(false);
+                    txtSecMobile.setEnabled(false);
+                    txtSecMobile.setFocusableInTouchMode(false);
+                    txtSecMobile.setFocusable(false);
+                    isEditable = false;
+                    btnEditProfile.setBackgroundResource(R.drawable.ic_edit);
+                    btnEditProfile.setScaleType(ImageView.ScaleType.CENTER);
+                    showProgress(true);
+                    UpdateProfileDetails();
+                } else {
+                    txtEmail.setEnabled(true);
+                    txtEmail.setFocusableInTouchMode(true);
+                    txtEmail.setFocusable(true);
+                    txtSecMobile.setEnabled(true);
+                    txtSecMobile.setFocusableInTouchMode(true);
+                    txtSecMobile.setFocusable(true);
+                    isEditable = true;
+                    btnEditProfile.setBackgroundResource(R.drawable.ic_tick);
+                    btnEditProfile.setScaleType(ImageView.ScaleType.FIT_XY);
+                }
+            }
+        });
         showProgress(true);
         getProfileDetails();
+    }
 
+    private void UpdateProfileDetails() {
+        final String API_KEY = Global.BASE_URL + "UpdateResidentProfile";
+
+        final ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+
+        ProfileRecords profileResponse = new ProfileRecords();
+        profileResponse.setMobileNo(txtMobile.getText().toString());
+        profileResponse.setSecMobileNumber(txtSecMobile.getText().toString());
+        profileResponse.setResidentDetailsId(_appPrefs.getResidentId());
+        profileResponse.setEmail(txtEmail.getText().toString());
+
+        Call<ProfileUpdateResponse> call = apiService.updateProfiledetails(API_KEY, profileResponse);
+        call.enqueue(new Callback<ProfileUpdateResponse>() {
+            @Override
+            public void onResponse(Call<ProfileUpdateResponse> call, Response<ProfileUpdateResponse> response) {
+                int statusCode = response.code();
+                String responsMsg = response.body().getResult();
+                showProgress(false);
+                showSnackbar(responsMsg);
+            }
+
+            @Override
+            public void onFailure(Call<ProfileUpdateResponse> call, Throwable t) {
+                showSnackbar("Failed to update");
+            }
+        });
 
     }
 
@@ -120,7 +176,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void getProfileDetails() {
-        final String API_KEY = Global.BASE_URL + "GetResidentDetailsByUserId?userId="+_appPrefs.getUserID();
+        final String API_KEY = Global.BASE_URL + "GetResidentDetailsByUserId?userId=" + _appPrefs.getUserID();
 
         final ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
@@ -138,8 +194,14 @@ public class ProfileActivity extends AppCompatActivity {
                     txtRoomBlockInfo.setText(mProfile.getBedName());
                     txtProperty.setText(mProfile.getProperty());
                     txtMobile.setText(mProfile.getMobileNo());
-                    txtSecMobile.setText(mProfile.getSecMobileNumber());
-
+                    if (mProfile.getEmailId().equals("") || mProfile.getSecMobileNumber().equals("")) {
+                        txtEmail.setHint("Email Id");
+                        txtSecMobile.setHint("Alternative Mobile No.");
+                    }else
+                        {
+                            txtSecMobile.setText(mProfile.getSecMobileNumber());
+                            txtEmail.setText(mProfile.getEmailId());
+                        }
                 } else {
                     showSnackbar(responsMsg);
                 }
