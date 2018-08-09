@@ -194,14 +194,22 @@ public class ProfileActivity extends AppCompatActivity {
                     txtRoomBlockInfo.setText(mProfile.getBedName());
                     txtProperty.setText(mProfile.getProperty());
                     txtMobile.setText(mProfile.getMobileNo());
-                    if (mProfile.getEmailId().equals("") || mProfile.getSecMobileNumber().equals("")) {
+                    if (mProfile.getEmailId() == null )
+                    {
                         txtEmail.setHint("Email Id");
+                    }
+                    else
+                    {
+                        txtEmail.setText(mProfile.getEmailId());
+                    }
+                    if (mProfile.getSecMobileNumber() == null)
+                    {
                         txtSecMobile.setHint("Alternative Mobile No.");
-                    }else
-                        {
-                            txtSecMobile.setText(mProfile.getSecMobileNumber());
-                            txtEmail.setText(mProfile.getEmailId());
-                        }
+                    }
+                    else
+                    {
+                        txtSecMobile.setText(mProfile.getSecMobileNumber());
+                    }
                 } else {
                     showSnackbar(responsMsg);
                 }
