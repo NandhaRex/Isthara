@@ -5,6 +5,7 @@ import com.tao.isthara.Model.CloseTicketRequest;
 import com.tao.isthara.Model.CloseTicketResponse;
 import com.tao.isthara.Model.DeclinedTicketRequest;
 import com.tao.isthara.Model.DeclinedTicketResponse;
+import com.tao.isthara.Model.EventsHeaderImageResponse;
 import com.tao.isthara.Model.IssueDetailsResponse;
 import com.tao.isthara.Model.IssueListResponse;
 import com.tao.isthara.Model.LoginResponse;
@@ -65,6 +66,9 @@ public interface ApiInterface {
 
     @GET
     Call<SubmitUserRatingResponse> SubmitRatingResponse(@Url String apiKey);
+
+    @GET
+    Call<EventsHeaderImageResponse> getEventsHeaderImage(@Url String api_key);
 
 
     /*@GET("movie/{id}")
