@@ -7,10 +7,10 @@ apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 android {
     signingConfigs {
         config {
-            keyAlias 'istharakey'
-            keyPassword 'Simply@1748'
-            storePassword 'Simply@1748'
-            storeFile file('E:/Work/Android/Isthara/Keystore/isthara.jks')
+//            keyAlias 'istharakey'
+//            keyPassword 'Simply@1748'
+//            storePassword 'Simply@1748'
+//            storeFile file('E:/Work/Android/Isthara/Keystore/isthara.jks')
         }
     }
     compileSdkVersion 27
@@ -19,8 +19,8 @@ android {
         manifestPlaceholders = [onesignal_app_id: project.ONESIGNAL_APP_ID, onesignal_google_project_number: "REMOTE"]
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 4
-        versionName "1.3"
+        versionCode 8
+        versionName "1.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {

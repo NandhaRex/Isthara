@@ -38,18 +38,19 @@ import com.tao.isthara.Utils.AppPreferences;
 import com.tao.isthara.Utils.Global;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class GridAdapter extends BaseAdapter {
+    private List<ArrayList<String>> imgList;
     private ArrayList<Records> recordList;
     private AppPreferences _appPrefs;
     String[] result;
     Context context;
     int[] imageId;
-    private ArrayList<String> imgList;
     private static LayoutInflater inflater = null;
 
     public GridAdapter(EventListActivity elActivity, String[] prgmNameList, int[] prgmImages) {
@@ -67,8 +68,9 @@ public class GridAdapter extends BaseAdapter {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         _appPrefs = new AppPreferences(activity.getApplicationContext());
 
+        imgList = new ArrayList<ArrayList<String>>();
         for (Records val : records) {
-            imgList = val.getDocumentData();
+            imgList.add(val.getDocumentData());
         }
     }
 
@@ -107,7 +109,7 @@ public class GridAdapter extends BaseAdapter {
         holder.img = (ImageView) rowView.findViewById(R.id.imageView1);
 
         // holder.tv.setText(result[position]);
-        byte[] decodedString = Base64.decode(imgList.get(position), Base64.DEFAULT);
+        byte[] decodedString = Base64.decode(imgList.get(position).get(0), Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         holder.img.setImageBitmap(decodedByte);
 
