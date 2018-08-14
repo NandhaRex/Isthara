@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     private AppPreferences _appPrefs;
     Context context;
     ArrayList prgmName;
-    public static String [] prgmNameList={"HELP DESK", "FOOD MENU", "RESIDENTS", "EVENTS", "PAYMENTS", "REFERRALS", "MY PROFILE", "LOGOUT"};
+    public static String [] prgmNameList={"HELP DESK", "FOOD MENU", "CHECK OUT", "EVENTS", "PAYMENTS", "REFERRALS", "MY PROFILE", "LOGOUT"};
     public static int [] prgmImages={R.drawable.ic_helpdesk, R.drawable.ic_food_menu,R.drawable.ic_residents_off,R.drawable.ic_events,R.drawable.ic_payments_off, R.drawable.ic_referrals_off, R.drawable.ic_myprofile, R.drawable.ic_logout };
 
 

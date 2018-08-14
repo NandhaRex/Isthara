@@ -17,28 +17,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data android:name="com.onesignal.NotificationOpened.DEFAULT" android:value="DISABLE" />
+        <meta-data
+            android:name="com.onesignal.NotificationOpened.DEFAULT"
+            android:value="DISABLE" />
+
         <activity
             android:name=".Activities.Splash.Activity.SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".Activities.Login.Activity.LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".Activities.Login.Activity.OTPVerificationActivity"
+        <activity
+            android:name=".Activities.Login.Activity.OTPVerificationActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".Activities.Home.Activity.MainActivity"
             android:label="@string/app_name"
@@ -46,38 +48,49 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.HelpDeskList.Activity.HelpDeskListActivity"
+            android:label="@string/title_activity_help_desk_list"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.HelpDeskCreateNew.Activity.HelpDeskCreateNewActivity"
             android:screenOrientation="portrait"
-            android:label="@string/title_activity_help_desk_list" />
-        <activity android:name=".Activities.HelpDeskCreateNew.Activity.HelpDeskCreateNewActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Activities.Profile.ProfileActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".Activities.HelpDeskCreateNew.Activity.CategoriesRecyclerViewActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Activities.HelpDeskCreateNew.Activity.SubCategoriesRecyclerViewActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".Activities.HelpDeskView.Activity.HelpDeskViewActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".Activities.FoodMenu.Activity.FoodMenuActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".Activities.HelpDeskList.Activity.EMP_HelpDeskListActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".Activities.Events.Activity.EventListActivity"
-            android:screenOrientation="portrait"/>
-
-
-        <activity android:name=".Activities.Events.Activity.EventDetailsActivity"
-            android:screenOrientation="portrait"/>
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Activities.Profile.ProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.HelpDeskCreateNew.Activity.CategoriesRecyclerViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.HelpDeskCreateNew.Activity.SubCategoriesRecyclerViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.HelpDeskView.Activity.HelpDeskViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.FoodMenu.Activity.FoodMenuActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.HelpDeskList.Activity.EMP_HelpDeskListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.Events.Activity.EventListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.Events.Activity.EventDetailsActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="sendotp.key"
             android:value="@string/sendotp_key" />
+
+        <!--<activity android:name=".Activities.Checkout.Activity.CheckoutActivity" />-->
+        <activity android:name=".Activities.Checkout.Activity.CheckoutActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
