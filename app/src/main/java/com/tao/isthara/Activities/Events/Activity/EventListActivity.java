@@ -1,13 +1,19 @@
 package com.tao.isthara.Activities.Events.Activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Adapter;
 import android.widget.GridView;
 import android.widget.ListAdapter;
+import android.widget.ProgressBar;
 
 
 import com.tao.isthara.Activities.Events.Adapter.GridAdapter;
@@ -39,25 +45,27 @@ public class EventListActivity extends AppCompatActivity {
     //  public static int [] prgmImages={R.drawable.img_zumba, R.drawable.img_yoga};
     public String[] prgmImages;
     private AppPreferences _appPrefs;
+    private ProgressBar mProgressView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_list);
+
+        mProgressView = (ProgressBar) findViewById(R.id.progress);
+        showProgress(true);
         //InitializeToolbar();
         activity = this;
 
         _appPrefs = new AppPreferences(getApplicationContext());
-
-
         getSupportActionBar().setTitle("Events");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setElevation(0);
 
         gv = (GridView) findViewById(R.id.gridView);
-       // final ListAdapter grid = new GridAdapter(this, recordsList);
+        // final ListAdapter grid = new GridAdapter(this, recordsList);
 
 
         final String API_KEY = Global.BASE_URL + "GetEventDetailsHeaderImage";
@@ -71,7 +79,8 @@ public class EventListActivity extends AppCompatActivity {
             public void onResponse(Call<EventsHeaderImageResponse> call, Response<EventsHeaderImageResponse> response) {
                 int res = response.code();
                 if (response.body().getTotalRecord() > 0) {
-                    gv.setAdapter(new GridAdapter(EventListActivity.activity,response.body().getRecords()));
+                    gv.setAdapter(new GridAdapter(EventListActivity.activity, response.body().getRecords()));
+                 showProgress(false);
                 }
             }
 
@@ -106,4 +115,39 @@ public class EventListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Shows the progress UI and hides the login form.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+//            mFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+//            mFormView.animate().setDuration(shortAnimTime).alpha(
+//                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+//                @Override
+//                public void onAnimationEnd(Animator animation) {
+//                    mFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+//                }
+//            });
+
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            // mFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
+    }
 }

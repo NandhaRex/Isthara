@@ -9,15 +9,33 @@ public class Records{
     @SerializedName("IssueNumber")
     private String IssueNumber;
 
+    private boolean IsLinkGivenToEventDetail;
+
     private int EventDetails_Id;
 
-    private ArrayList<String> DocumentData;
+    private String EventDetailsType;
 
-    public ArrayList<String> getDocumentData() { return this.DocumentData; }
+    //private ArrayList<String> DocumentData;
+    private String DocumentData;
+
+    public String getDocumentData() { return this.DocumentData; }
 
     public int getEventDetailsId() { return this.EventDetails_Id; }
 
     public String getIssueNumber(){
         return IssueNumber;
     }
+
+    public int getEventDetails_Id() {
+        return EventDetails_Id;
+    }
+
+    public String getEventDetailsType() {
+        return EventDetailsType;
+    }
+
+     public  boolean getIsLinkGivenToEventDetail()
+     {
+         return  IsLinkGivenToEventDetail;
+     }
 }

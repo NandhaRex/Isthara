@@ -7,10 +7,11 @@
     android:background="@color/colorPrimary"
     tools:context="com.tao.isthara.Activities.Home.Activity.MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
 
         <GridView
             android:id="@+id/gridView"
@@ -21,7 +22,15 @@
             android:scrollbars="none"
             android:overScrollMode="never"
             android:stretchMode="columnWidth">
-
         </GridView>
-    </LinearLayout>
+        <ProgressBar
+            android:id="@+id/progress"
+            style="@style/ProgressTheme"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_alignParentTop="true"
+            android:indeterminate="true"
+            android:indeterminateBehavior="repeat"
+            android:visibility="gone"/>
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

@@ -17,17 +17,23 @@ import android.widget.TextView;
 
 import com.tao.isthara.R;
 
+import java.time.Year;
+import java.util.Calendar;
+import java.util.Date;
+
 public class CheckoutActivity extends AppCompatActivity {
 
     private TextView lbl_bankText;
     private EditText txt_datepicker;
     private DatePickerDialog.OnDateSetListener listener;
+    private Calendar calender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
 
+        calender = Calendar.getInstance();
         lbl_bankText = (TextView) findViewById(R.id.lbl_bankName);
 //        String bank_text = "Bank Details (for refund if any)";
 //        SpannableString spannableString = new SpannableString(bank_text);
@@ -37,6 +43,7 @@ public class CheckoutActivity extends AppCompatActivity {
         listener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                txt_datepicker.setText(dayOfMonth+"-"+month+"-"+year);
             }
         };
 
@@ -45,7 +52,8 @@ public class CheckoutActivity extends AppCompatActivity {
         txt_datepicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dialog = new DatePickerDialog(CheckoutActivity.this, listener, 2013, 2, 18);
+                DatePickerDialog dialog = new DatePickerDialog(CheckoutActivity.this,
+                        listener, calender.get(Calendar.YEAR), calender.get(Calendar.MONTH), calender.get(Calendar.DATE));
                 dialog.show();
             }
         });

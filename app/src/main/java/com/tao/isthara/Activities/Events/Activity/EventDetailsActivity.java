@@ -1,19 +1,25 @@
 package com.tao.isthara.Activities.Events.Activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.tao.isthara.Activities.Events.Adapter.GridAdapter;
 import com.tao.isthara.Model.EventsHeaderImageResponse;
@@ -36,6 +42,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     Context context;
     private int imageId;
     private ImageView imageView;
+    private ProgressBar mProgressView;
 
 
     @Override
@@ -53,7 +60,8 @@ public class EventDetailsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_events_details);
         activity = this;
-
+        mProgressView = (ProgressBar) findViewById(R.id.progress);
+        showProgress(true);
  /*       getSupportActionBar().setTitle("Events");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);*/
@@ -72,8 +80,10 @@ public class EventDetailsActivity extends AppCompatActivity {
                     String data = response.body().getHeaderImage().get(0).getDocumentData();
                     byte[] decodedString = Base64.decode(data, Base64.DEFAULT);
                     Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    imageView.setVisibility(View.VISIBLE);
                     imageView.setImageBitmap(decodedByte);
                 }
+                showProgress(false);
             }
 
             @Override
@@ -122,5 +132,29 @@ public class EventDetailsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            // mFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
     }
 }

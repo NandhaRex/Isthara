@@ -16,6 +16,7 @@
             android:id="@+id/banner"
             android:layout_gravity="center"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="match_parent"
             android:scaleType="fitXY" />
 
@@ -255,5 +256,15 @@
             </LinearLayout>
 
         </ScrollView>
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_alignParentTop="true"
+            android:indeterminate="true"
+            android:indeterminateBehavior="repeat"
+            android:visibility="visible"/>
     </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>
