@@ -78,15 +78,15 @@ public class EventListActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<EventsHeaderImageResponse> call, Response<EventsHeaderImageResponse> response) {
                 int res = response.code();
-                if (response.body().getTotalRecord() > 0) {
+                if (response.body() != null && response.body().getTotalRecord() > 0) {
                     gv.setAdapter(new GridAdapter(EventListActivity.activity, response.body().getRecords()));
-                 showProgress(false);
                 }
+                showProgress(false);
             }
 
             @Override
             public void onFailure(Call<EventsHeaderImageResponse> call, Throwable t) {
-
+                showProgress(false);
             }
         });
         //gv.setAdapter(grid);
