@@ -92,7 +92,7 @@
                 android:padding="5dp">
 
                 <Spinner
-                    android:id="@+id/spnr_reason"
+                    android:id="@+id/spnr_reasonForExit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -101,7 +101,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
                 android:text="Date of Exit"
                 android:textColor="@android:color/darker_gray" />
 
@@ -148,7 +147,7 @@
                 android:padding="5dp">
 
                 <Spinner
-                    android:id="@+id/spnr_bank"
+                    android:id="@+id/spnr_BankNames"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -161,6 +160,24 @@
             <!--android:layout_marginBottom="10dp"-->
             <!--android:background="@drawable/border_style"-->
             <!--android:text="add a differenet bank" />-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:text="Acc. Holder Name"
+                android:textColor="@android:color/darker_gray" />
+
+            <EditText
+                android:id="@+id/txt_accntHolderName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/border_style"
+                android:padding="5dp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

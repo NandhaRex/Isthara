@@ -17,10 +17,12 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.tao.isthara.Model.ProfileRecords;
@@ -32,8 +34,10 @@ import com.tao.isthara.Utils.AppPreferences;
 import com.tao.isthara.Utils.Global;
 
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,6 +52,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private ProgressBar mProgressView;
     private AppPreferences _appPrefs;
     private RelativeLayout mRelativeLayout;
+    private Spinner reasonForExitSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +82,17 @@ public class CheckoutActivity extends AppCompatActivity {
 
         lbl_bankText.setText(Html.fromHtml("<b>Bank Details</b> (for refund if any)"));
         txt_datepicker = (EditText) findViewById(R.id.txt_Date);
+
+        List<String> categories = new ArrayList<String>();
+        categories.add("Job Transfer");
+        categories.add("Distance to work place");
+        categories.add("Marriage");
+
+        reasonForExitSpinner = (Spinner) findViewById(R.id.spnr_reasonForExit);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, categories);
+        reasonForExitSpinner.setAdapter(adapter);
+
         txt_datepicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,8 +120,7 @@ public class CheckoutActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
                 int statusCode = response.code();
-                if(response.body() == null)
-                {
+                if (response.body() == null) {
                     showSnackbar("No Details found");
                     return;
                 }
