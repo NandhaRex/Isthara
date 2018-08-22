@@ -15,8 +15,16 @@ public class Records{
 
     private String EventDetailsType;
 
-    //private ArrayList<String> DocumentData;
     private String DocumentData;
+
+    //getReasonforExist
+    private String Text;
+
+    private int Value;
+
+    public String getText() { return this.Text; }
+
+    public int getValue() { return this.Value; }
 
     public String getDocumentData() { return this.DocumentData; }
 

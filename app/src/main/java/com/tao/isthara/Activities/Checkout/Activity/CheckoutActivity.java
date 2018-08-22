@@ -25,8 +25,10 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.tao.isthara.Model.CheckoutReasonResponse;
 import com.tao.isthara.Model.ProfileRecords;
 import com.tao.isthara.Model.ProfileResponse;
+import com.tao.isthara.Model.Records;
 import com.tao.isthara.R;
 import com.tao.isthara.Rest.ApiClient;
 import com.tao.isthara.Rest.ApiInterface;
@@ -53,6 +55,9 @@ public class CheckoutActivity extends AppCompatActivity {
     private AppPreferences _appPrefs;
     private RelativeLayout mRelativeLayout;
     private Spinner reasonForExitSpinner;
+    private ArrayList<String> reasons;
+    private ArrayAdapter<String> adapter;
+    private ArrayList<Records> reasonAndValueList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +78,9 @@ public class CheckoutActivity extends AppCompatActivity {
         roomNo = (TextView) findViewById(R.id.lbl_roomNo);
         mProgressView = (ProgressBar) findViewById(R.id.progress);
         mRelativeLayout = (RelativeLayout) findViewById(R.id.layCheckOut);
+        reasons = new ArrayList<String>();
         getProfileDetails();
+        getReasonforLeaving();
 //        String bank_text = "Bank Details (for refund if any)";
 //        SpannableString spannableString = new SpannableString(bank_text);
 //        spannableString.setSpan(new StyleSpan(Typeface.BOLD),0,11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -83,14 +90,9 @@ public class CheckoutActivity extends AppCompatActivity {
         lbl_bankText.setText(Html.fromHtml("<b>Bank Details</b> (for refund if any)"));
         txt_datepicker = (EditText) findViewById(R.id.txt_Date);
 
-        List<String> categories = new ArrayList<String>();
-        categories.add("Job Transfer");
-        categories.add("Distance to work place");
-        categories.add("Marriage");
-
         reasonForExitSpinner = (Spinner) findViewById(R.id.spnr_reasonForExit);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, categories);
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_dropdown_item, reasons);
         reasonForExitSpinner.setAdapter(adapter);
 
         txt_datepicker.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +109,31 @@ public class CheckoutActivity extends AppCompatActivity {
                 txt_datepicker.setText(dayOfMonth + "-" + month + "-" + year);
             }
         };
+    }
+
+    private void getReasonforLeaving() {
+        final String API_KEY = Global.BASE_URL + "GetReasonListForResidentLeaving";
+        final ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+
+        Call<CheckoutReasonResponse> call = apiService.getReason(API_KEY);
+        call.enqueue(new Callback<CheckoutReasonResponse>() {
+            @Override
+            public void onResponse(Call<CheckoutReasonResponse> call, Response<CheckoutReasonResponse> response) {
+                if (response != null) {
+                    reasonAndValueList = response.body().getRecords();
+                    for (Records rec : reasonAndValueList) {
+                        reasons.add(rec.getText());
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CheckoutReasonResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     private void getProfileDetails() {
@@ -166,7 +193,6 @@ public class CheckoutActivity extends AppCompatActivity {
         // the progress spinner.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
 
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mProgressView.animate().setDuration(shortAnimTime).alpha(
