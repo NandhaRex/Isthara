@@ -14,12 +14,15 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -58,6 +61,9 @@ public class CheckoutActivity extends AppCompatActivity {
     private ArrayList<String> reasons;
     private ArrayAdapter<String> adapter;
     private ArrayList<Records> reasonAndValueList;
+    private Button btn_Submit;
+    private LinearLayout layDatePicket;
+    private EditText bankName, accName, iFSC, accNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +72,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
         _appPrefs = new AppPreferences(getApplicationContext());
 
-        getSupportActionBar().setTitle("CHECK OUT");
+        getSupportActionBar().setTitle("EXIT FORM");
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -78,6 +84,11 @@ public class CheckoutActivity extends AppCompatActivity {
         roomNo = (TextView) findViewById(R.id.lbl_roomNo);
         mProgressView = (ProgressBar) findViewById(R.id.progress);
         mRelativeLayout = (RelativeLayout) findViewById(R.id.layCheckOut);
+        btn_Submit = (Button) findViewById(R.id.btn_Submit);
+        bankName = (EditText) findViewById(R.id.txt_BankName);
+        accName = (EditText) findViewById(R.id.txt_accntHolderName);
+        iFSC = (EditText) findViewById(R.id.txt_ifsccode);
+        accNo = (EditText) findViewById(R.id.txt_accntNo);
         reasons = new ArrayList<String>();
         getProfileDetails();
         getReasonforLeaving();
@@ -89,13 +100,29 @@ public class CheckoutActivity extends AppCompatActivity {
 
         lbl_bankText.setText(Html.fromHtml("<b>Bank Details</b> (for refund if any)"));
         txt_datepicker = (EditText) findViewById(R.id.txt_Date);
+        layDatePicket = (LinearLayout) findViewById(R.id.layDatePicket);
 
         reasonForExitSpinner = (Spinner) findViewById(R.id.spnr_reasonForExit);
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_dropdown_item, reasons);
         reasonForExitSpinner.setAdapter(adapter);
 
-        txt_datepicker.setOnClickListener(new View.OnClickListener() {
+        btn_Submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (TextUtils.isEmpty(txt_datepicker.getText()) || TextUtils.isEmpty(iFSC.getText())
+                        || TextUtils.isEmpty(bankName.getText()) || TextUtils.isEmpty(accName.getText())
+                        || TextUtils.isEmpty(accNo.getText())) {
+                    showSnackbar("All fields are mandatory");
+                    return;
+                }
+                showProgress(true);
+                btn_Submit.setClickable(false);
+
+
+            }
+        });
+        layDatePicket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatePickerDialog dialog = new DatePickerDialog(CheckoutActivity.this,
@@ -106,7 +133,7 @@ public class CheckoutActivity extends AppCompatActivity {
         listener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                txt_datepicker.setText(dayOfMonth + "-" + month + "-" + year);
+                txt_datepicker.setText(dayOfMonth + "/" + month + "/" + year);
             }
         };
     }

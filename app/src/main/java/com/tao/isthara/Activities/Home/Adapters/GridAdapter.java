@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.geniusforapp.fancydialog.FancyAlertDialog;
 import com.onesignal.OneSignal;
+import com.tao.isthara.Activities.Checkout.Activity.CheckoutActivity;
 import com.tao.isthara.Activities.Events.Activity.EventListActivity;
 import com.tao.isthara.Activities.FoodMenu.Activity.FoodMenuActivity;
 import com.tao.isthara.Activities.HelpDeskList.Activity.HelpDeskListActivity;
@@ -131,6 +132,9 @@ public class GridAdapter extends BaseAdapter{
                     context.startActivity(i);*/
                 }else if(result[position].equals("MY PROFILE")){
                     Intent i = new Intent(context, ProfileActivity.class);
+                    context.startActivity(i);
+                }else if(result[position].equals("CHECK OUT")){
+                    Intent i = new Intent(context, CheckoutActivity.class);
                     context.startActivity(i);
                 }else {
                     //Toast.makeText(context, "You Clicked " + result[position], Toast.LENGTH_LONG).show();

@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
     private AppPreferences _appPrefs;
     Context context;
     ArrayList prgmName;
-    public static String [] prgmNameList={"HELP DESK", "FOOD MENU", "CHECK OUT", "EVENTS", "PAYMENTS", "REFERRALS", "MY PROFILE", "LOGOUT"};
-    public static int [] prgmImages={R.drawable.ic_helpdesk, R.drawable.ic_food_menu,R.drawable.ic_residents_off,R.drawable.ic_events,R.drawable.ic_payments_off, R.drawable.ic_referrals_off, R.drawable.ic_myprofile, R.drawable.ic_logout };
+    public static String[] prgmNameList = {"HELP DESK", "FOOD MENU", "CHECK OUT", "EVENTS", "PAYMENTS", "REFERRALS", "MY PROFILE", "LOGOUT"};
+    public static int[] prgmImages = {R.drawable.ic_helpdesk, R.drawable.ic_food_menu, R.drawable.ic_residents, R.drawable.ic_events, R.drawable.ic_payments_off, R.drawable.ic_referrals_off, R.drawable.ic_myprofile, R.drawable.ic_logout};
 
 
     @Override
@@ -118,11 +118,11 @@ public class MainActivity extends AppCompatActivity {
 
         scrollView = (NestedScrollView) findViewById(R.id.main_activity_scrollview_id);
         stickyPostsList.clear();
-        for(int i = 0 ; i < sliderExcerpts.length ; i++){
-            StickyPostFragment fragment = new StickyPostFragment(String.valueOf(i),sliderDates[i],sliderExcerpts[i],sliderTags[i],sliderThumbnails[i]);
+        for (int i = 0; i < sliderExcerpts.length; i++) {
+            StickyPostFragment fragment = new StickyPostFragment(String.valueOf(i), sliderDates[i], sliderExcerpts[i], sliderTags[i], sliderThumbnails[i]);
             stickyPostsList.add(fragment);
         }
-        stickyPostspPagerAdapter = new PagerAdapter(super.getSupportFragmentManager(),stickyPostsList);
+        stickyPostspPagerAdapter = new PagerAdapter(super.getSupportFragmentManager(), stickyPostsList);
         stickyPostsViewPager.setAdapter(stickyPostspPagerAdapter);
         stickyPostsViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -132,37 +132,31 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if(position == 0){
+                if (position == 0) {
                     firstIndicator.setBackgroundResource(R.drawable.indicator_circle_focus);
                     secondIndicator.setBackgroundResource(R.drawable.indicator_circle_unfocus);
                     thirdIndicator.setBackgroundResource(R.drawable.indicator_circle_unfocus);
                     fourthIndicator.setBackgroundResource(R.drawable.indicator_circle_unfocus);
                     fifthIndicator.setBackgroundResource(R.drawable.indicator_circle_unfocus);
-                }
-                else if(position == 1){
+                } else if (position == 1) {
                     firstIndicator.setBackgroundResource(R.drawable.indicator_circle_unfocus);
                     secondIndicator.setBackgroundResource(R.drawable.indicator_circle_focus);
                     thirdIndicator.setBackgroundResource(R.drawable.indicator_circle_unfocus);
                     fourthIndicator.setBackgroundResource(R.drawable.indicator_circle_unfocus);
                     fifthIndicator.setBackgroundResource(R.drawable.indicator_circle_unfocus);
-                }
-
-                else if(position == 2){
+                } else if (position == 2) {
                     firstIndicator.setBackgroundResource(R.drawable.indicator_circle_unfocus);
                     secondIndicator.setBackgroundResource(R.drawable.indicator_circle_unfocus);
                     thirdIndicator.setBackgroundResource(R.drawable.indicator_circle_focus);
                     fourthIndicator.setBackgroundResource(R.drawable.indicator_circle_unfocus);
                     fifthIndicator.setBackgroundResource(R.drawable.indicator_circle_unfocus);
-                }
-                else if(position == 3){
+                } else if (position == 3) {
                     firstIndicator.setBackgroundResource(R.drawable.indicator_circle_unfocus);
                     secondIndicator.setBackgroundResource(R.drawable.indicator_circle_unfocus);
                     thirdIndicator.setBackgroundResource(R.drawable.indicator_circle_unfocus);
                     fourthIndicator.setBackgroundResource(R.drawable.indicator_circle_focus);
                     fifthIndicator.setBackgroundResource(R.drawable.indicator_circle_unfocus);
-                }
-
-                else if(position == 4){
+                } else if (position == 4) {
                     firstIndicator.setBackgroundResource(R.drawable.indicator_circle_unfocus);
                     secondIndicator.setBackgroundResource(R.drawable.indicator_circle_unfocus);
                     thirdIndicator.setBackgroundResource(R.drawable.indicator_circle_unfocus);
@@ -192,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
         scrollView.post(new Runnable() {
             public void run() {
-                scrollView.scrollTo(0,0);
+                scrollView.scrollTo(0, 0);
             }
         });
 
@@ -218,8 +212,8 @@ public class MainActivity extends AppCompatActivity {
 
         });*/
 
-        gv=(GridView) findViewById(R.id.gridView);
-        gv.setAdapter(new GridAdapter(this, prgmNameList,prgmImages));
+        gv = (GridView) findViewById(R.id.gridView);
+        gv.setAdapter(new GridAdapter(this, prgmNameList, prgmImages));
 
     }
 
@@ -236,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        for(int i = 0 ; i < stickyPostsList.size();i++){
+        for (int i = 0; i < stickyPostsList.size(); i++) {
             stickyPostsList.get(i).onPause();
         }
         stickyPostsViewPager.stopAutoScroll();
@@ -245,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        for(int i = 0 ; i < stickyPostsList.size();i++){
+        for (int i = 0; i < stickyPostsList.size(); i++) {
             stickyPostsList.get(i).onStop();
         }
         stickyPostsViewPager.stopAutoScroll();
@@ -254,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        for(int i = 0 ; i < stickyPostsList.size();i++){
+        for (int i = 0; i < stickyPostsList.size(); i++) {
             stickyPostsList.get(i).onResume();
         }
         stickyPostsViewPager.startAutoScroll();
