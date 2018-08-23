@@ -28,6 +28,8 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.tao.isthara.Model.CheckOutRequest;
+import com.tao.isthara.Model.CheckOutResponse;
 import com.tao.isthara.Model.CheckoutReasonResponse;
 import com.tao.isthara.Model.ProfileRecords;
 import com.tao.isthara.Model.ProfileResponse;
@@ -38,6 +40,8 @@ import com.tao.isthara.Rest.ApiInterface;
 import com.tao.isthara.Utils.AppPreferences;
 import com.tao.isthara.Utils.Global;
 
+import org.json.JSONObject;
+
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,6 +50,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Converter;
 import retrofit2.Response;
 
 public class CheckoutActivity extends AppCompatActivity {
@@ -110,19 +115,55 @@ public class CheckoutActivity extends AppCompatActivity {
         btn_Submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // btn_Submit.setClickable(false);
                 if (TextUtils.isEmpty(txt_datepicker.getText()) || TextUtils.isEmpty(iFSC.getText())
                         || TextUtils.isEmpty(bankName.getText()) || TextUtils.isEmpty(accName.getText())
                         || TextUtils.isEmpty(accNo.getText())) {
                     showSnackbar("All fields are mandatory");
-                    return;
+                } else {
+                    showProgress(true);
+                    btn_Submit.setClickable(false);
+                    CheckOutRequest req = new CheckOutRequest();
+                    req.setAccountHolderName(accName.getText().toString());
+                    req.setAccountNo(Integer.parseInt(accNo.getText().toString()));
+                    req.setBankName(bankName.getText().toString());
+                    req.setCheckoutDate(txt_datepicker.getText().toString());
+                    req.setIFSC(iFSC.getText().toString());
+                    req.setRequestedBy(_appPrefs.getResidentId());
+                    req.setResidentDetailsId(_appPrefs.getResidentId());
+                    req.setRequestedVia("AndriodMobileApp");
+                    req.setReasonId(reasonForExitSpinner.getSelectedItemPosition() + 1);
+
+                    final String API_KEY = Global.BASE_URL + "ResidentCheckoutRequest";
+                    final ApiInterface apiService =
+                            ApiClient.getClient().create(ApiInterface.class);
+                    Call<CheckOutResponse> call = apiService.residentCheckOutRequest(API_KEY, req);
+
+                    call.enqueue(new Callback<CheckOutResponse>() {
+                        @Override
+                        public void onResponse(Call<CheckOutResponse> call, Response<CheckOutResponse> response) {
+                            if (response.body() != null) {
+                                showSnackbar(response.body().getResult());
+                            } else {
+//                                JSONObject jObjError = new JSONObject(response.errorBody());
+                                showSnackbar("Already Created");
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<CheckOutResponse> call, Throwable t) {
+
+                        }
+                    });
                 }
-                showProgress(true);
-                btn_Submit.setClickable(false);
-
-
+                showProgress(false);
+                btn_Submit.setClickable(true);
             }
         });
-        layDatePicket.setOnClickListener(new View.OnClickListener() {
+        layDatePicket.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
                 DatePickerDialog dialog = new DatePickerDialog(CheckoutActivity.this,
@@ -130,12 +171,16 @@ public class CheckoutActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
-        listener = new DatePickerDialog.OnDateSetListener() {
+        listener = new DatePickerDialog.OnDateSetListener()
+
+        {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 txt_datepicker.setText(dayOfMonth + "/" + month + "/" + year);
             }
-        };
+        }
+
+        ;
     }
 
     private void getReasonforLeaving() {

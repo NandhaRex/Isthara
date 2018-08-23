@@ -1,6 +1,8 @@
 package com.tao.isthara.Rest;
 
 import com.tao.isthara.Model.Categories;
+import com.tao.isthara.Model.CheckOutRequest;
+import com.tao.isthara.Model.CheckOutResponse;
 import com.tao.isthara.Model.CheckoutReasonResponse;
 import com.tao.isthara.Model.CloseTicketRequest;
 import com.tao.isthara.Model.CloseTicketResponse;
@@ -61,6 +63,8 @@ public interface ApiInterface {
     @POST
     Call<DeclinedTicketResponse> getDeclinedTicketRequest(@Url String apiKey, @Body DeclinedTicketRequest declinedTicketRequest);
 
+    @POST
+    Call<CheckOutResponse> residentCheckOutRequest(@Url String apiKey, @Body CheckOutRequest checkOutRequest);
 
     @GET
     Call<ProfileResponse> getProfile(@Url String apiKey);
