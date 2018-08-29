@@ -1,9 +1,11 @@
 package com.tao.isthara.Utils;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.renderscript.Sampler;
 
 public class AppPreferences {
 
@@ -15,6 +17,16 @@ public class AppPreferences {
 
     public static final String KEY_USER_IS_VERIFIED = "verified";
     public static final String KEY_IS_RATED = "rated";
+
+    public static final String KEY_IS_CHECKEDOUT = "ischeckout";
+    public static final String KEY_CHECKEDOUT_DATE = "checkedoutdate";
+    public static final String KEY_BANK_NAME = "bankname";
+    public static final String KEY_ACC_HOLDER_NAME = "accname";
+    public static final String KEY_ACC_NO = "accnumber";
+    public static final String KEY_IFSC = "ifsc";
+    public static final String KEY_REASON = "reason";
+
+
 
 
     private static final String APP_SHARED_PREFS = AppPreferences.class.getSimpleName(); //  Name of the file -.xml
@@ -73,7 +85,7 @@ public class AppPreferences {
     }
 
     public int getResidentId() {
-        return _sharedPrefs.getInt(KEY_USER_RESIDENT_ID,0);
+        return _sharedPrefs.getInt(KEY_USER_RESIDENT_ID, 0);
     }
 
     public void saveResidentId(int id) {
@@ -81,4 +93,66 @@ public class AppPreferences {
         _prefsEditor.commit();
     }
 
+    public void saveIsCheckOut(boolean value) {
+        _prefsEditor.putBoolean(KEY_IS_CHECKEDOUT, value);
+        _prefsEditor.commit();
+    }
+
+    public boolean getIsCheckedOut() {
+        return _sharedPrefs.getBoolean(KEY_IS_CHECKEDOUT, false);
+    }
+
+    public void saveCheckOutReqDate(String date) {
+        _prefsEditor.putString(KEY_CHECKEDOUT_DATE, date);
+        _prefsEditor.commit();
+    }
+
+    public void saveBankName(String bankName) {
+        _prefsEditor.putString(KEY_BANK_NAME, bankName);
+        _prefsEditor.commit();
+    }
+
+    public void saveAccHolderName(String name) {
+        _prefsEditor.putString(KEY_ACC_HOLDER_NAME, name);
+        _prefsEditor.commit();
+    }
+
+    public void saveAccNo(String accno) {
+        _prefsEditor.putString(KEY_ACC_NO, accno);
+        _prefsEditor.commit();
+    }
+
+    public void saveIFSC(String ifsc) {
+        _prefsEditor.putString(KEY_IFSC, ifsc);
+        _prefsEditor.commit();
+    }
+
+    public void saveReason(String reason){
+        _prefsEditor.putString(KEY_REASON, reason);
+        _prefsEditor.commit();
+    }
+
+    public String getKeyCheckedoutDate() {
+        return _sharedPrefs.getString(KEY_CHECKEDOUT_DATE,"");
+    }
+
+    public String getAccHolderName() {
+        return _sharedPrefs.getString(KEY_ACC_HOLDER_NAME, "");
+    }
+
+    public String getAccNo() {
+        return _sharedPrefs.getString(KEY_ACC_NO, "");
+    }
+
+    public String getKeyBankName() {
+        return _sharedPrefs.getString(KEY_BANK_NAME, "");
+    }
+
+    public String getKeyIfsc() {
+        return _sharedPrefs.getString(KEY_IFSC, "");
+    }
+
+    public String getKeyReason() {
+        return _sharedPrefs.getString(KEY_REASON, "No Reason");
+    }
 }

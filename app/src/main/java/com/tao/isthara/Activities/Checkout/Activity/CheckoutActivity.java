@@ -3,7 +3,9 @@ package com.tao.isthara.Activities.Checkout.Activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.icu.text.RelativeDateTimeFormatter;
@@ -22,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -69,6 +72,10 @@ public class CheckoutActivity extends AppCompatActivity {
     private Button btn_Submit;
     private LinearLayout layDatePicket;
     private EditText bankName, accName, iFSC, accNo;
+    private boolean ischeckedOut;
+    private ImageView imgCalender;
+    private TextView lblreason;
+    private LinearLayout layReasonSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +83,7 @@ public class CheckoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_checkout);
 
         _appPrefs = new AppPreferences(getApplicationContext());
+        ischeckedOut = _appPrefs.getIsCheckedOut();
 
         getSupportActionBar().setTitle("EXIT FORM");
         getSupportActionBar().setElevation(0);
@@ -89,14 +97,18 @@ public class CheckoutActivity extends AppCompatActivity {
         roomNo = (TextView) findViewById(R.id.lbl_roomNo);
         mProgressView = (ProgressBar) findViewById(R.id.progress);
         mRelativeLayout = (RelativeLayout) findViewById(R.id.layCheckOut);
+        lblreason = (TextView) findViewById(R.id.lblreason);
+        layReasonSpinner = (LinearLayout) findViewById(R.id.layReasonSpinner);
         btn_Submit = (Button) findViewById(R.id.btn_Submit);
         bankName = (EditText) findViewById(R.id.txt_BankName);
         accName = (EditText) findViewById(R.id.txt_accntHolderName);
         iFSC = (EditText) findViewById(R.id.txt_ifsccode);
         accNo = (EditText) findViewById(R.id.txt_accntNo);
+        imgCalender = (ImageView) findViewById(R.id.imgCalender);
         reasons = new ArrayList<String>();
         getProfileDetails();
         getReasonforLeaving();
+
 //        String bank_text = "Bank Details (for refund if any)";
 //        SpannableString spannableString = new SpannableString(bank_text);
 //        spannableString.setSpan(new StyleSpan(Typeface.BOLD),0,11, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -116,47 +128,25 @@ public class CheckoutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // btn_Submit.setClickable(false);
-                if (TextUtils.isEmpty(txt_datepicker.getText()) || TextUtils.isEmpty(iFSC.getText())
-                        || TextUtils.isEmpty(bankName.getText()) || TextUtils.isEmpty(accName.getText())
-                        || TextUtils.isEmpty(accNo.getText())) {
-                    showSnackbar("All fields are mandatory");
-                } else {
-                    showProgress(true);
-                    btn_Submit.setClickable(false);
-                    CheckOutRequest req = new CheckOutRequest();
-                    req.setAccountHolderName(accName.getText().toString());
-                    req.setAccountNo(Integer.parseInt(accNo.getText().toString()));
-                    req.setBankName(bankName.getText().toString());
-                    req.setCheckoutDate(txt_datepicker.getText().toString());
-                    req.setIFSC(iFSC.getText().toString());
-                    req.setRequestedBy(_appPrefs.getResidentId());
-                    req.setResidentDetailsId(_appPrefs.getResidentId());
-                    req.setRequestedVia("AndriodMobileApp");
-                    req.setReasonId(reasonForExitSpinner.getSelectedItemPosition() + 1);
 
-                    final String API_KEY = Global.BASE_URL + "ResidentCheckoutRequest";
-                    final ApiInterface apiService =
-                            ApiClient.getClient().create(ApiInterface.class);
-                    Call<CheckOutResponse> call = apiService.residentCheckOutRequest(API_KEY, req);
-
-                    call.enqueue(new Callback<CheckOutResponse>() {
-                        @Override
-                        public void onResponse(Call<CheckOutResponse> call, Response<CheckOutResponse> response) {
-                            if (response.body() != null) {
-                                showSnackbar(response.body().getResult());
-                            } else {
-//                                JSONObject jObjError = new JSONObject(response.errorBody());
-                                showSnackbar("Already Created");
-                            }
-
-                        }
-
-                        @Override
-                        public void onFailure(Call<CheckOutResponse> call, Throwable t) {
-
-                        }
-                    });
-                }
+                final AlertDialog alertDialog = new AlertDialog.Builder(CheckoutActivity.this).create();
+                alertDialog.setTitle("Submit");
+                alertDialog.setMessage("Do you want to submit Checkout form ?");
+                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        CheckAndSubmitForm();
+                    }
+                });
+                alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertDialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+                alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
                 showProgress(false);
                 btn_Submit.setClickable(true);
             }
@@ -169,6 +159,8 @@ public class CheckoutActivity extends AppCompatActivity {
                 DatePickerDialog dialog = new DatePickerDialog(CheckoutActivity.this,
                         listener, calender.get(Calendar.YEAR), calender.get(Calendar.MONTH), calender.get(Calendar.DATE));
                 dialog.show();
+                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
             }
         });
         listener = new DatePickerDialog.OnDateSetListener()
@@ -178,9 +170,100 @@ public class CheckoutActivity extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 txt_datepicker.setText(dayOfMonth + "/" + month + "/" + year);
             }
-        }
+        };
+        if (ischeckedOut) {
+            guestName.setTextColor(Color.parseColor("#A9A9A9"));
+            branchName.setTextColor(Color.parseColor("#A9A9A9"));
+            roomNo.setTextColor(Color.parseColor("#A9A9A9"));
+            txt_datepicker.setTextColor(Color.parseColor("#A9A9A9"));
+            btn_Submit.setVisibility(View.GONE);
+            imgCalender.setVisibility(View.GONE);
+            layDatePicket.setBackground(null);
+            txt_datepicker.setText(_appPrefs.getKeyCheckedoutDate());
 
-        ;
+            reasonForExitSpinner.setVisibility(View.GONE);
+            lblreason.setText(_appPrefs.getKeyReason());
+            layReasonSpinner.setVisibility(View.GONE);
+
+            bankName.setBackground(null);
+            bankName.setEnabled(false);
+            bankName.setText(_appPrefs.getKeyBankName());
+
+            iFSC.setBackground(null);
+            iFSC.setEnabled(false);
+            iFSC.setText(_appPrefs.getKeyIfsc());
+
+            accName.setBackground(null);
+            accName.setEnabled(false);
+            accName.setText(_appPrefs.getAccHolderName());
+
+            accNo.setBackground(null);
+            accNo.setEnabled(false);
+            accNo.setText(_appPrefs.getAccNo());
+        }
+        //else {
+//            btn_Submit.setVisibility(View.VISIBLE);
+//            imgCalender.setVisibility(View.VISIBLE);
+//        }
+//            layDatePicket.setBackgroundResource(R.drawable.border_style);
+//            bankName.setBackgroundResource(R.drawable.border_style);
+//            iFSC.setBackgroundResource(R.drawable.border_style);
+//            accName.setBackgroundResource(R.drawable.border_style);
+//            accNo.setBackgroundResource(R.drawable.border_style);
+    }
+
+    private void CheckAndSubmitForm() {
+        if (TextUtils.isEmpty(txt_datepicker.getText()) || TextUtils.isEmpty(iFSC.getText())
+                || TextUtils.isEmpty(bankName.getText()) || TextUtils.isEmpty(accName.getText())
+                || TextUtils.isEmpty(accNo.getText())) {
+            showSnackbar("All fields are mandatory");
+
+        } else {
+            showProgress(true);
+            btn_Submit.setClickable(false);
+            CheckOutRequest req = new CheckOutRequest();
+            req.setAccountHolderName(accName.getText().toString());
+            req.setAccountNo(Integer.parseInt(accNo.getText().toString()));
+            req.setBankName(bankName.getText().toString());
+            req.setCheckoutDate(txt_datepicker.getText().toString());
+            req.setIFSC(iFSC.getText().toString());
+            req.setRequestedBy(_appPrefs.getResidentId());
+            req.setResidentDetailsId(_appPrefs.getResidentId());
+            req.setRequestedVia("AndriodMobileApp");
+            req.setReasonId(reasonForExitSpinner.getSelectedItemPosition() + 1);
+
+            final String API_KEY = Global.BASE_URL + "ResidentCheckoutRequest";
+            final ApiInterface apiService =
+                    ApiClient.getClient().create(ApiInterface.class);
+            Call<CheckOutResponse> call = apiService.residentCheckOutRequest(API_KEY, req);
+
+            call.enqueue(new Callback<CheckOutResponse>() {
+                @Override
+                public void onResponse(Call<CheckOutResponse> call, Response<CheckOutResponse> response) {
+                    _appPrefs.saveCheckOutReqDate(txt_datepicker.getText().toString());
+                    _appPrefs.saveBankName(bankName.getText().toString());
+                    _appPrefs.saveAccHolderName(accName.getText().toString());
+                    _appPrefs.saveAccNo(accNo.getText().toString());
+                    _appPrefs.saveIFSC(iFSC.getText().toString());
+                    _appPrefs.saveReason(reasonForExitSpinner.getSelectedItem().toString());
+                    if (response.body() != null) {
+                        _appPrefs.saveIsCheckOut(response.body().getIsValid());
+                        showSnackbar(response.body().getResult());
+                    } else {
+//                                JSONObject jObjError = new JSONObject(response.errorBody());
+                        showSnackbar("Already Request Created");
+                    }
+                    _appPrefs.saveIsCheckOut(true);
+                }
+
+                @Override
+                public void onFailure(Call<CheckOutResponse> call, Throwable t) {
+                    showSnackbar("Something went wrong");
+                    _appPrefs.saveIsCheckOut(false);
+                }
+            });
+            showProgress(false);
+        }
     }
 
     private void getReasonforLeaving() {
