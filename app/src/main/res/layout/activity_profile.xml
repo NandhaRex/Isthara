@@ -69,6 +69,7 @@
                     android:inputType="number"
                     android:textAlignment="center"
                     android:focusable="false"
+                    android:maxLength="12"
                     android:hint="Alternative Mobile No."
                     android:focusableInTouchMode="false"
                     android:layout_marginTop="12dp"

@@ -14,6 +14,8 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -94,17 +96,22 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (isEditable) {
-                    txtEmail.setEnabled(false);
-                    txtEmail.setFocusableInTouchMode(false);
-                    txtEmail.setFocusable(false);
-                    txtSecMobile.setEnabled(false);
-                    txtSecMobile.setFocusableInTouchMode(false);
-                    txtSecMobile.setFocusable(false);
-                    isEditable = false;
-                    btnEditProfile.setBackgroundResource(R.drawable.ic_edit);
-                    btnEditProfile.setScaleType(ImageView.ScaleType.CENTER);
-                    showProgress(true);
-                    UpdateProfileDetails();
+                    if (isValidEmail(txtEmail.getText().toString())) {
+                        txtEmail.setEnabled(false);
+                        txtEmail.setFocusableInTouchMode(false);
+                        txtEmail.setFocusable(false);
+                        txtSecMobile.setEnabled(false);
+                        txtSecMobile.setFocusableInTouchMode(false);
+                        txtSecMobile.setFocusable(false);
+                        isEditable = false;
+                        btnEditProfile.setBackgroundResource(R.drawable.ic_edit);
+                        btnEditProfile.setScaleType(ImageView.ScaleType.CENTER);
+                        showProgress(true);
+                        UpdateProfileDetails();
+                    } else {
+                        showSnackbar("Invalid Email");
+                        showProgress(false);
+                    }
                 } else {
                     txtEmail.setEnabled(true);
                     txtEmail.setFocusableInTouchMode(true);
@@ -149,7 +156,10 @@ public class ProfileActivity extends AppCompatActivity {
                 showSnackbar("Failed to update");
             }
         });
+    }
 
+    public static boolean isValidEmail(CharSequence target) {
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 
     @Override
@@ -194,20 +204,14 @@ public class ProfileActivity extends AppCompatActivity {
                     txtRoomBlockInfo.setText(mProfile.getBedName());
                     txtProperty.setText(mProfile.getProperty());
                     txtMobile.setText(mProfile.getMobileNo());
-                    if (mProfile.getEmailId() == null )
-                    {
+                    if (mProfile.getEmailId() == null) {
                         txtEmail.setHint("Email Id");
-                    }
-                    else
-                    {
+                    } else {
                         txtEmail.setText(mProfile.getEmailId());
                     }
-                    if (mProfile.getSecMobileNumber() == null)
-                    {
+                    if (mProfile.getSecMobileNumber() == null) {
                         txtSecMobile.setHint("Alternative Mobile No.");
-                    }
-                    else
-                    {
+                    } else {
                         txtSecMobile.setText(mProfile.getSecMobileNumber());
                     }
                 } else {

@@ -152,19 +152,24 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
         layDatePicket.setOnClickListener(new View.OnClickListener()
-
         {
             @Override
             public void onClick(View v) {
+                layDatePicket.setEnabled(false);
                 DatePickerDialog dialog = new DatePickerDialog(CheckoutActivity.this,
                         listener, calender.get(Calendar.YEAR), calender.get(Calendar.MONTH), calender.get(Calendar.DATE));
                 dialog.show();
+                dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        layDatePicket.setEnabled(true);
+                    }
+                });
                 dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
             }
         });
         listener = new DatePickerDialog.OnDateSetListener()
-
         {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

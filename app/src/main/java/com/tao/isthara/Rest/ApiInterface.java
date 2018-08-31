@@ -67,6 +67,9 @@ public interface ApiInterface {
     Call<CheckOutResponse> residentCheckOutRequest(@Url String apiKey, @Body CheckOutRequest checkOutRequest);
 
     @GET
+    Call<CheckOutResponse> getCheckOutStatus(@Url String apikey);
+
+    @GET
     Call<ProfileResponse> getProfile(@Url String apiKey);
 
     @GET

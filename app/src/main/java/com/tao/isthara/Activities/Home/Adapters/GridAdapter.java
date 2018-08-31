@@ -24,21 +24,31 @@ import com.tao.isthara.Activities.HelpDeskList.Activity.HelpDeskListActivity;
 import com.tao.isthara.Activities.Login.Activity.LoginActivity;
 import com.tao.isthara.Activities.Home.Activity.MainActivity;
 import com.tao.isthara.Activities.Profile.ProfileActivity;
+import com.tao.isthara.Model.CheckOutRequest;
+import com.tao.isthara.Model.CheckOutResponse;
 import com.tao.isthara.R;
+import com.tao.isthara.Rest.ApiClient;
+import com.tao.isthara.Rest.ApiInterface;
 import com.tao.isthara.Utils.AppPreferences;
+import com.tao.isthara.Utils.Global;
 
-public class GridAdapter extends BaseAdapter{
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class GridAdapter extends BaseAdapter {
     private AppPreferences _appPrefs;
-    String [] result;
+    String[] result;
     Context context;
-    int [] imageId;
-    private static LayoutInflater inflater=null;
+    int[] imageId;
+    private static LayoutInflater inflater = null;
+
     public GridAdapter(MainActivity mainActivity, String[] prgmNameList, int[] prgmImages) {
         // TODO Auto-generated constructor stub
-        result=prgmNameList;
-        context=mainActivity;
-        imageId=prgmImages;
-        inflater = ( LayoutInflater )context.
+        result = prgmNameList;
+        context = mainActivity;
+        imageId = prgmImages;
+        inflater = (LayoutInflater) context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         _appPrefs = new AppPreferences(mainActivity.getApplicationContext());
 
@@ -62,20 +72,20 @@ public class GridAdapter extends BaseAdapter{
         return position;
     }
 
-    public class Holder
-    {
+    public class Holder {
         TextView tv;
         ImageView img;
     }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-        Holder holder=new Holder();
+        Holder holder = new Holder();
         View rowView;
 
         rowView = inflater.inflate(R.layout.item_main_menu, null);
-        holder.tv=(TextView) rowView.findViewById(R.id.textView1);
-        holder.img=(ImageView) rowView.findViewById(R.id.imageView1);
+        holder.tv = (TextView) rowView.findViewById(R.id.textView1);
+        holder.img = (ImageView) rowView.findViewById(R.id.imageView1);
 
         holder.tv.setText(result[position]);
         holder.img.setImageResource(imageId[position]);
@@ -86,16 +96,16 @@ public class GridAdapter extends BaseAdapter{
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-                if(result[position].equals("HELP DESK")){
+                if (result[position].equals("HELP DESK")) {
                     Intent i = new Intent(context, HelpDeskListActivity.class);
                     context.startActivity(i);
-                }else if(result[position].equals("FOOD MENU")){
+                } else if (result[position].equals("FOOD MENU")) {
                     Intent i = new Intent(context, FoodMenuActivity.class);
                     context.startActivity(i);
-                }else if(result[position].equals("EVENTS")){
+                } else if (result[position].equals("EVENTS")) {
                     Intent i = new Intent(context, EventListActivity.class);
                     context.startActivity(i);
-                }else if(result[position].equals("LOGOUT")){
+                } else if (result[position].equals("LOGOUT")) {
                     FancyAlertDialog.Builder alert = new FancyAlertDialog.Builder(context)
                             .setTextTitle("LOGOUT")
                             .setTextSubTitle("Do you really want to logout?")
@@ -130,13 +140,35 @@ public class GridAdapter extends BaseAdapter{
                     Intent i = new Intent(context, LoginActivity.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     context.startActivity(i);*/
-                }else if(result[position].equals("MY PROFILE")){
+                } else if (result[position].equals("MY PROFILE")) {
                     Intent i = new Intent(context, ProfileActivity.class);
                     context.startActivity(i);
-                }else if(result[position].equals("CHECK OUT")){
-                    Intent i = new Intent(context, CheckoutActivity.class);
-                    context.startActivity(i);
-                }else {
+                } else if (result[position].equals("CHECK OUT")) {
+
+                    final String API_KEY = Global.BASE_URL + "IsAlreadyRequestedForCheckOut?ResidentDetailsId=" + _appPrefs.getResidentId();
+
+                    final ApiInterface apiService =
+                            ApiClient.getClient().create(ApiInterface.class);
+
+                    Call<CheckOutResponse> call = apiService.getCheckOutStatus(API_KEY);
+                    call.enqueue(new Callback<CheckOutResponse>() {
+                        @Override
+                        public void onResponse(Call<CheckOutResponse> call, Response<CheckOutResponse> response) {
+                            if (response.body() != null) {
+                                if (!response.body().getIsValid()) {
+                                    Intent i = new Intent(context, CheckoutActivity.class);
+                                    context.startActivity(i);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<CheckOutResponse> call, Throwable t) {
+
+                        }
+                    });
+
+                } else {
                     //Toast.makeText(context, "You Clicked " + result[position], Toast.LENGTH_LONG).show();
                 }
             }
