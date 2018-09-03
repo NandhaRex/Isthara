@@ -27,9 +27,9 @@ public class CheckOutRequest {
 
     public void setIFSC(String IFSC) { this.IFSC = IFSC; }
 
-    private BigInteger AccountNo;
+    private String AccountNo;
 
-    public void setAccountNo(BigInteger AccountNo) { this.AccountNo = AccountNo; }
+    public void setAccountNo(String AccountNo) { this.AccountNo = AccountNo; }
 
     private String RequestedVia;
 

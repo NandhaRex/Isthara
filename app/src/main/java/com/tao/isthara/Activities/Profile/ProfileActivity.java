@@ -97,17 +97,22 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (isEditable) {
                     if (isValidEmail(txtEmail.getText().toString())) {
-                        txtEmail.setEnabled(false);
-                        txtEmail.setFocusableInTouchMode(false);
-                        txtEmail.setFocusable(false);
-                        txtSecMobile.setEnabled(false);
-                        txtSecMobile.setFocusableInTouchMode(false);
-                        txtSecMobile.setFocusable(false);
-                        isEditable = false;
-                        btnEditProfile.setBackgroundResource(R.drawable.ic_edit);
-                        btnEditProfile.setScaleType(ImageView.ScaleType.CENTER);
-                        showProgress(true);
-                        UpdateProfileDetails();
+                        if (isValidPhoneNumber(txtSecMobile.getText().toString())) {
+                            txtEmail.setEnabled(false);
+                            txtEmail.setFocusableInTouchMode(false);
+                            txtEmail.setFocusable(false);
+                            txtSecMobile.setEnabled(false);
+                            txtSecMobile.setFocusableInTouchMode(false);
+                            txtSecMobile.setFocusable(false);
+                            isEditable = false;
+                            btnEditProfile.setBackgroundResource(R.drawable.ic_edit);
+                            btnEditProfile.setScaleType(ImageView.ScaleType.CENTER);
+                            showProgress(true);
+                            UpdateProfileDetails();
+                        } else {
+                            showSnackbar("Invalid Phone Number");
+                            showProgress(false);
+                        }
                     } else {
                         showSnackbar("Invalid Email");
                         showProgress(false);
@@ -127,6 +132,14 @@ public class ProfileActivity extends AppCompatActivity {
         });
         showProgress(true);
         getProfileDetails();
+    }
+
+    private boolean isValidPhoneNumber(String text) {
+        if (text.length() == 10 || text.equals(""))
+            return true;
+        else {
+            return false;
+        }
     }
 
     private void UpdateProfileDetails() {

@@ -154,8 +154,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 btn_Submit.setClickable(true);
             }
         });
-        layDatePicket.setOnClickListener(new View.OnClickListener()
-        {
+        layDatePicket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 layDatePicket.setEnabled(false);
@@ -172,43 +171,42 @@ public class CheckoutActivity extends AppCompatActivity {
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
             }
         });
-        listener = new DatePickerDialog.OnDateSetListener()
-        {
+        listener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 txt_datepicker.setText(dayOfMonth + "/" + month + "/" + year);
             }
         };
-//        if (ischeckedOut) {
-//            guestName.setTextColor(Color.parseColor("#A9A9A9"));
-//            branchName.setTextColor(Color.parseColor("#A9A9A9"));
-//            roomNo.setTextColor(Color.parseColor("#A9A9A9"));
-//            txt_datepicker.setTextColor(Color.parseColor("#A9A9A9"));
-//            btn_Submit.setVisibility(View.GONE);
-//            imgCalender.setVisibility(View.GONE);
-//            layDatePicket.setBackground(null);
-//            txt_datepicker.setText(_appPrefs.getKeyCheckedoutDate());
-//
-//            reasonForExitSpinner.setVisibility(View.GONE);
-//            lblreason.setText(_appPrefs.getKeyReason());
-//            layReasonSpinner.setVisibility(View.GONE);
-//
-//            bankName.setBackground(null);
-//            bankName.setEnabled(false);
-//            bankName.setText(_appPrefs.getKeyBankName());
-//
-//            iFSC.setBackground(null);
-//            iFSC.setEnabled(false);
-//            iFSC.setText(_appPrefs.getKeyIfsc());
-//
-//            accName.setBackground(null);
-//            accName.setEnabled(false);
-//            accName.setText(_appPrefs.getAccHolderName());
-//
-//            accNo.setBackground(null);
-//            accNo.setEnabled(false);
-//            accNo.setText(_appPrefs.getAccNo());
-//        }
+        if (ischeckedOut) {
+            guestName.setTextColor(Color.parseColor("#A9A9A9"));
+            branchName.setTextColor(Color.parseColor("#A9A9A9"));
+            roomNo.setTextColor(Color.parseColor("#A9A9A9"));
+            txt_datepicker.setTextColor(Color.parseColor("#A9A9A9"));
+            btn_Submit.setVisibility(View.GONE);
+            imgCalender.setVisibility(View.GONE);
+            layDatePicket.setBackground(null);
+            txt_datepicker.setText(_appPrefs.getKeyCheckedoutDate());
+
+            reasonForExitSpinner.setVisibility(View.GONE);
+            lblreason.setText(_appPrefs.getKeyReason());
+            layReasonSpinner.setVisibility(View.GONE);
+
+            bankName.setBackground(null);
+            bankName.setEnabled(false);
+            bankName.setText(_appPrefs.getKeyBankName());
+
+            iFSC.setBackground(null);
+            iFSC.setEnabled(false);
+            iFSC.setText(_appPrefs.getKeyIfsc());
+
+            accName.setBackground(null);
+            accName.setEnabled(false);
+            accName.setText(_appPrefs.getAccHolderName());
+
+            accNo.setBackground(null);
+            accNo.setEnabled(false);
+            accNo.setText(_appPrefs.getAccNo());
+        }
         //else {
 //            btn_Submit.setVisibility(View.VISIBLE);
 //            imgCalender.setVisibility(View.VISIBLE);
@@ -232,7 +230,7 @@ public class CheckoutActivity extends AppCompatActivity {
             CheckOutRequest req = new CheckOutRequest();
             req.setAccountHolderName(accName.getText().toString());
             //req.setAccountNo(getAccountNumber(accNo.getText().toString()));
-            req.setAccountNo(new BigInteger(accNo.getText().toString()));
+            req.setAccountNo(accNo.getText().toString());
             req.setBankName(bankName.getText().toString());
             req.setCheckoutDate(txt_datepicker.getText().toString());
             req.setIFSC(iFSC.getText().toString());
@@ -260,13 +258,13 @@ public class CheckoutActivity extends AppCompatActivity {
                         _appPrefs.saveIsCheckOut(response.body().getIsValid());
                         showSnackbar(response.body().getResult());
                     }
-                    else if (response.errorBody().toString() != null)
-                    {
-                        String val = response.errorBody().toString();
-                    }
+//                    else if (response.errorBody().toString() != null)
+//                    {
+//                        String val = response.errorBody().toString();
+//                    }
                     else {
 //                                JSONObject jObjError = new JSONObject(response.errorBody());
-                        showSnackbar("Already Request Created");
+                        showSnackbar("Error in Submit");
                     }
                     _appPrefs.saveIsCheckOut(true);
                 }
@@ -287,10 +285,10 @@ public class CheckoutActivity extends AppCompatActivity {
         char ch[] = text.toCharArray();
         int sum = 0;
         //get ascii value for zero
-        int zeroAscii = (int)'0';
-        for(char c:ch){
-            int tmpAscii = (int)c;
-            sum = (sum*10)+(tmpAscii-zeroAscii);
+        int zeroAscii = (int) '0';
+        for (char c : ch) {
+            int tmpAscii = (int) c;
+            sum = (sum * 10) + (tmpAscii - zeroAscii);
         }
         return sum;
     }

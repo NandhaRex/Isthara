@@ -145,9 +145,6 @@ public class GridAdapter extends BaseAdapter {
                     context.startActivity(i);
                 } else if (result[position].equals("CHECK OUT")) {
 
-                    Intent i = new Intent(context, CheckoutActivity.class);
-                    context.startActivity(i);
-
                     final String API_KEY = Global.BASE_URL + "IsAlreadyRequestedForCheckOut?ResidentDetailsId=" + _appPrefs.getResidentId();
 
                     final ApiInterface apiService =
