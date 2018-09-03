@@ -1,5 +1,7 @@
 package com.tao.isthara.Model;
 
+import java.math.BigInteger;
+
 public class CheckOutRequest {
     private int ResidentDetailsId;
 
@@ -25,9 +27,9 @@ public class CheckOutRequest {
 
     public void setIFSC(String IFSC) { this.IFSC = IFSC; }
 
-    private int AccountNo;
+    private BigInteger AccountNo;
 
-    public void setAccountNo(int AccountNo) { this.AccountNo = AccountNo; }
+    public void setAccountNo(BigInteger AccountNo) { this.AccountNo = AccountNo; }
 
     private String RequestedVia;
 
