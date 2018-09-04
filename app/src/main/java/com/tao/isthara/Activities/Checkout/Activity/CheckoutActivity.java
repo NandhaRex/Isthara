@@ -174,39 +174,40 @@ public class CheckoutActivity extends AppCompatActivity {
         listener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                txt_datepicker.setText(dayOfMonth + "/" + month + "/" + year);
+                String date = dayOfMonth + "/" + ((month < 10) ? "0" + month : month) + "/" + year;
+                txt_datepicker.setText(date);
             }
         };
-        if (ischeckedOut) {
-            guestName.setTextColor(Color.parseColor("#A9A9A9"));
-            branchName.setTextColor(Color.parseColor("#A9A9A9"));
-            roomNo.setTextColor(Color.parseColor("#A9A9A9"));
-            txt_datepicker.setTextColor(Color.parseColor("#A9A9A9"));
-            btn_Submit.setVisibility(View.GONE);
-            imgCalender.setVisibility(View.GONE);
-            layDatePicket.setBackground(null);
-            txt_datepicker.setText(_appPrefs.getKeyCheckedoutDate());
-
-            reasonForExitSpinner.setVisibility(View.GONE);
-            lblreason.setText(_appPrefs.getKeyReason());
-            layReasonSpinner.setVisibility(View.GONE);
-
-            bankName.setBackground(null);
-            bankName.setEnabled(false);
-            bankName.setText(_appPrefs.getKeyBankName());
-
-            iFSC.setBackground(null);
-            iFSC.setEnabled(false);
-            iFSC.setText(_appPrefs.getKeyIfsc());
-
-            accName.setBackground(null);
-            accName.setEnabled(false);
-            accName.setText(_appPrefs.getAccHolderName());
-
-            accNo.setBackground(null);
-            accNo.setEnabled(false);
-            accNo.setText(_appPrefs.getAccNo());
-        }
+//        if (ischeckedOut) {
+//            guestName.setTextColor(Color.parseColor("#A9A9A9"));
+//            branchName.setTextColor(Color.parseColor("#A9A9A9"));
+//            roomNo.setTextColor(Color.parseColor("#A9A9A9"));
+//            txt_datepicker.setTextColor(Color.parseColor("#A9A9A9"));
+//            btn_Submit.setVisibility(View.GONE);
+//            imgCalender.setVisibility(View.GONE);
+//            layDatePicket.setBackground(null);
+//            txt_datepicker.setText(_appPrefs.getKeyCheckedoutDate());
+//
+//            reasonForExitSpinner.setVisibility(View.GONE);
+//            lblreason.setText(_appPrefs.getKeyReason());
+//            layReasonSpinner.setVisibility(View.GONE);
+//
+//            bankName.setBackground(null);
+//            bankName.setEnabled(false);
+//            bankName.setText(_appPrefs.getKeyBankName());
+//
+//            iFSC.setBackground(null);
+//            iFSC.setEnabled(false);
+//            iFSC.setText(_appPrefs.getKeyIfsc());
+//
+//            accName.setBackground(null);
+//            accName.setEnabled(false);
+//            accName.setText(_appPrefs.getAccHolderName());
+//
+//            accNo.setBackground(null);
+//            accNo.setEnabled(false);
+//            accNo.setText(_appPrefs.getAccNo());
+//        }
         //else {
 //            btn_Submit.setVisibility(View.VISIBLE);
 //            imgCalender.setVisibility(View.VISIBLE);
@@ -257,6 +258,7 @@ public class CheckoutActivity extends AppCompatActivity {
                     if (response.body() != null) {
                         _appPrefs.saveIsCheckOut(response.body().getIsValid());
                         showSnackbar(response.body().getResult());
+                        _appPrefs.saveIsCheckOut(true);
                     }
 //                    else if (response.errorBody().toString() != null)
 //                    {
@@ -265,18 +267,19 @@ public class CheckoutActivity extends AppCompatActivity {
                     else {
 //                                JSONObject jObjError = new JSONObject(response.errorBody());
                         showSnackbar("Error in Submit");
+                        _appPrefs.saveIsCheckOut(false);
+                        btn_Submit.setClickable(true);
                     }
-                    _appPrefs.saveIsCheckOut(true);
                 }
 
                 @Override
                 public void onFailure(Call<CheckOutResponse> call, Throwable t) {
                     showSnackbar("Something went wrong");
                     _appPrefs.saveIsCheckOut(false);
+                    btn_Submit.setClickable(true);
                 }
             });
             showProgress(false);
-            btn_Submit.setClickable(false);
         }
     }
 
