@@ -20,6 +20,7 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -79,6 +80,10 @@ public class CheckoutActivity extends AppCompatActivity {
     private ImageView imgCalender;
     private TextView lblreason;
     private LinearLayout layReasonSpinner;
+    private TextView nameheader, reasonheader,
+            branchHeader, roomNoHeader,
+            dateHeader, bankNameHeader,
+            accNameHeader, accNoHeader, ifscHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +91,7 @@ public class CheckoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_checkout);
 
         _appPrefs = new AppPreferences(getApplicationContext());
-        ischeckedOut = _appPrefs.getIsCheckedOut();
+        ischeckedOut = getIntent().getExtras().getBoolean("isCheckedout");
 
         getSupportActionBar().setTitle("EXIT FORM");
         getSupportActionBar().setElevation(0);
@@ -95,6 +100,15 @@ public class CheckoutActivity extends AppCompatActivity {
 
         calender = Calendar.getInstance();
         lbl_bankText = (TextView) findViewById(R.id.lbl_bankName);
+        nameheader = (TextView) findViewById(R.id.nameHeader);
+        branchHeader = (TextView) findViewById(R.id.branchHeader);
+        roomNoHeader = (TextView) findViewById(R.id.roomNoHeader);
+        reasonheader = (TextView) findViewById(R.id.reasonheader);
+        dateHeader = (TextView) findViewById(R.id.dateHeader);
+        bankNameHeader = (TextView) findViewById(R.id.bankNameHeader);
+        accNameHeader = (TextView) findViewById(R.id.accNameHeader);
+        accNoHeader = (TextView) findViewById(R.id.accNoHeader);
+        ifscHeader = (TextView) findViewById(R.id.ifscHeader);
         guestName = (TextView) findViewById(R.id.lbl_Name);
         branchName = (TextView) findViewById(R.id.lbl_branch);
         roomNo = (TextView) findViewById(R.id.lbl_roomNo);
@@ -127,96 +141,127 @@ public class CheckoutActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_dropdown_item, reasons);
         reasonForExitSpinner.setAdapter(adapter);
 
-        btn_Submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // btn_Submit.setClickable(false);
 
-                final AlertDialog alertDialog = new AlertDialog.Builder(CheckoutActivity.this).create();
-                alertDialog.setTitle("Submit");
-                alertDialog.setMessage("Do you want to submit Checkout form ?");
-                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        CheckAndSubmitForm();
-                    }
-                });
-                alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        alertDialog.dismiss();
-                    }
-                });
-                alertDialog.show();
-                alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
-                showProgress(false);
-                btn_Submit.setClickable(true);
+        if (ischeckedOut) {
+            guestName.setTextColor(Color.parseColor("#A9A9A9"));
+            branchName.setTextColor(Color.parseColor("#A9A9A9"));
+            roomNo.setTextColor(Color.parseColor("#A9A9A9"));
+            txt_datepicker.setTextColor(Color.parseColor("#A9A9A9"));
+            btn_Submit.setVisibility(View.GONE);
+            imgCalender.setVisibility(View.GONE);
+            layDatePicket.setBackground(null);
+           // txt_datepicker.setText(_appPrefs.getKeyCheckedoutDate());
+
+            nameheader.setTextColor(Color.BLACK);
+            reasonheader.setTextColor(Color.BLACK);
+            branchHeader.setTextColor(Color.BLACK);
+            roomNoHeader.setTextColor(Color.BLACK);
+            dateHeader.setTextColor(Color.BLACK);
+            bankNameHeader.setTextColor(Color.BLACK);
+            accNameHeader.setTextColor(Color.BLACK);
+            accNoHeader.setTextColor(Color.BLACK);
+            ifscHeader.setTextColor(Color.BLACK);
+
+            reasonForExitSpinner.setVisibility(View.GONE);
+            lblreason.setText(_appPrefs.getKeyReason());
+            layReasonSpinner.setVisibility(View.GONE);
+
+            bankName.setBackground(null);
+            bankName.setEnabled(false);
+         //   bankName.setText(_appPrefs.getKeyBankName());
+
+            iFSC.setBackground(null);
+            iFSC.setEnabled(false);
+            //iFSC.setText(_appPrefs.getKeyIfsc());
+
+            accName.setBackground(null);
+            accName.setEnabled(false);
+            accName.setText(_appPrefs.getAccHolderName());
+
+            accNo.setBackground(null);
+            accNo.setEnabled(false);
+            //accNo.setText(_appPrefs.getAccNo());
+            GetcheckedOutData();
+        } else {
+            btn_Submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // btn_Submit.setClickable(false);
+
+                    final AlertDialog alertDialog = new AlertDialog.Builder(CheckoutActivity.this).create();
+                    alertDialog.setTitle("Submit");
+                    alertDialog.setMessage("Do you want to submit Checkout form ?");
+                    alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            CheckAndSubmitForm();
+                        }
+                    });
+                    alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            alertDialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+                    alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                    alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+                    showProgress(false);
+                    btn_Submit.setClickable(true);
+                }
+            });
+            layDatePicket.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    layDatePicket.setEnabled(false);
+                    DatePickerDialog dialog = new DatePickerDialog(CheckoutActivity.this,
+                            listener, calender.get(Calendar.YEAR), calender.get(Calendar.MONTH), calender.get(Calendar.DATE));
+                    dialog.show();
+                    dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            layDatePicket.setEnabled(true);
+                        }
+                    });
+                    dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                }
+            });
+            listener = new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    String date = dayOfMonth + "/" + ((month < 10) ? "0" + month : month) + "/" + year;
+                    txt_datepicker.setText(date);
+                }
+            };
+        }
+    }
+
+    private void GetcheckedOutData() {
+        final String API_KEY = Global.BASE_URL + "GetCheckoutDetailsByResidentDetailsId?ResidentDetailsId=" + _appPrefs.getResidentId();
+        final ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+
+        Call<CheckOutRequest> call = apiService.getCheckOutDetails(API_KEY);
+        call.enqueue(new Callback<CheckOutRequest>() {
+            @Override
+            public void onResponse(Call<CheckOutRequest> call, Response<CheckOutRequest> response) {
+                if (response.body() != null)
+                {
+                    lblreason.setText(response.body().getReason());
+                    txt_datepicker.setText(response.body().getCheckoutDate());
+                    bankName.setText(response.body().getBankName());
+                    accName.setText(response.body().getAccountHolderName());
+                    accNo.setText(response.body().getAccountNo());
+                    iFSC.setText(response.body().getIFSC());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CheckOutRequest> call, Throwable t) {
+
             }
         });
-        layDatePicket.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                layDatePicket.setEnabled(false);
-                DatePickerDialog dialog = new DatePickerDialog(CheckoutActivity.this,
-                        listener, calender.get(Calendar.YEAR), calender.get(Calendar.MONTH), calender.get(Calendar.DATE));
-                dialog.show();
-                dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        layDatePicket.setEnabled(true);
-                    }
-                });
-                dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-            }
-        });
-        listener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String date = dayOfMonth + "/" + ((month < 10) ? "0" + month : month) + "/" + year;
-                txt_datepicker.setText(date);
-            }
-        };
-//        if (ischeckedOut) {
-//            guestName.setTextColor(Color.parseColor("#A9A9A9"));
-//            branchName.setTextColor(Color.parseColor("#A9A9A9"));
-//            roomNo.setTextColor(Color.parseColor("#A9A9A9"));
-//            txt_datepicker.setTextColor(Color.parseColor("#A9A9A9"));
-//            btn_Submit.setVisibility(View.GONE);
-//            imgCalender.setVisibility(View.GONE);
-//            layDatePicket.setBackground(null);
-//            txt_datepicker.setText(_appPrefs.getKeyCheckedoutDate());
-//
-//            reasonForExitSpinner.setVisibility(View.GONE);
-//            lblreason.setText(_appPrefs.getKeyReason());
-//            layReasonSpinner.setVisibility(View.GONE);
-//
-//            bankName.setBackground(null);
-//            bankName.setEnabled(false);
-//            bankName.setText(_appPrefs.getKeyBankName());
-//
-//            iFSC.setBackground(null);
-//            iFSC.setEnabled(false);
-//            iFSC.setText(_appPrefs.getKeyIfsc());
-//
-//            accName.setBackground(null);
-//            accName.setEnabled(false);
-//            accName.setText(_appPrefs.getAccHolderName());
-//
-//            accNo.setBackground(null);
-//            accNo.setEnabled(false);
-//            accNo.setText(_appPrefs.getAccNo());
-//        }
-        //else {
-//            btn_Submit.setVisibility(View.VISIBLE);
-//            imgCalender.setVisibility(View.VISIBLE);
-//        }
-//            layDatePicket.setBackgroundResource(R.drawable.border_style);
-//            bankName.setBackgroundResource(R.drawable.border_style);
-//            iFSC.setBackgroundResource(R.drawable.border_style);
-//            accName.setBackgroundResource(R.drawable.border_style);
-//            accNo.setBackgroundResource(R.drawable.border_style);
     }
 
     private void CheckAndSubmitForm() {
@@ -230,7 +275,6 @@ public class CheckoutActivity extends AppCompatActivity {
             btn_Submit.setClickable(false);
             CheckOutRequest req = new CheckOutRequest();
             req.setAccountHolderName(accName.getText().toString());
-            //req.setAccountNo(getAccountNumber(accNo.getText().toString()));
             req.setAccountNo(accNo.getText().toString());
             req.setBankName(bankName.getText().toString());
             req.setCheckoutDate(txt_datepicker.getText().toString());
@@ -248,26 +292,10 @@ public class CheckoutActivity extends AppCompatActivity {
             call.enqueue(new Callback<CheckOutResponse>() {
                 @Override
                 public void onResponse(Call<CheckOutResponse> call, Response<CheckOutResponse> response) {
-                    _appPrefs.saveCheckOutReqDate(txt_datepicker.getText().toString());
-                    _appPrefs.saveBankName(bankName.getText().toString());
-                    _appPrefs.saveAccHolderName(accName.getText().toString());
-                    _appPrefs.saveAccNo(accNo.getText().toString());
-                    _appPrefs.saveIFSC(iFSC.getText().toString());
-                    _appPrefs.saveReason(reasonForExitSpinner.getSelectedItem().toString());
-                    int code = response.code();
                     if (response.body() != null) {
-                        _appPrefs.saveIsCheckOut(response.body().getIsValid());
                         showSnackbar(response.body().getResult());
-                        _appPrefs.saveIsCheckOut(true);
-                    }
-//                    else if (response.errorBody().toString() != null)
-//                    {
-//                        String val = response.errorBody().toString();
-//                    }
-                    else {
-//                                JSONObject jObjError = new JSONObject(response.errorBody());
+                    } else {
                         showSnackbar("Error in Submit");
-                        _appPrefs.saveIsCheckOut(false);
                         btn_Submit.setClickable(true);
                     }
                 }
@@ -275,12 +303,28 @@ public class CheckoutActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<CheckOutResponse> call, Throwable t) {
                     showSnackbar("Something went wrong");
-                    _appPrefs.saveIsCheckOut(false);
                     btn_Submit.setClickable(true);
                 }
             });
             showProgress(false);
         }
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private int getAccountNumber(String text) {

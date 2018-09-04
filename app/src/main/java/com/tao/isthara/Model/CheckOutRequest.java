@@ -15,25 +15,55 @@ public class CheckOutRequest {
 
     public void setCheckoutDate(String CheckoutDate) { this.CheckoutDate = CheckoutDate; }
 
+    public String getCheckoutDate() {
+        return CheckoutDate;
+    }
+
     private String BankName;
 
     public void setBankName(String BankName) { this.BankName = BankName; }
+
+    public String getBankName() {
+        return BankName;
+    }
 
     private String AccountHolderName;
 
     public void setAccountHolderName(String AccountHolderName) { this.AccountHolderName = AccountHolderName; }
 
+    public String getAccountHolderName() {
+        return AccountHolderName;
+    }
+
+    private String Reason;
+
+    public String getReason() {
+        return Reason;
+    }
+
     private String IFSC;
 
     public void setIFSC(String IFSC) { this.IFSC = IFSC; }
+
+    public String getIFSC() {
+        return IFSC;
+    }
 
     private String AccountNo;
 
     public void setAccountNo(String AccountNo) { this.AccountNo = AccountNo; }
 
+    public String getAccountNo() {
+        return AccountNo;
+    }
+
     private String RequestedVia;
 
     public void setRequestedVia(String RequestedVia) { this.RequestedVia = RequestedVia; }
+
+    public String getRequestedVia() {
+        return RequestedVia;
+    }
 
     private int RequestedBy;
 

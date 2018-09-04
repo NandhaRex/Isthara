@@ -81,6 +81,9 @@ public interface ApiInterface {
     @GET
     Call<EventsHeaderImageResponse> getEventsHeaderImage(@Url String api_key);
 
+    @GET
+    Call<CheckOutRequest> getCheckOutDetails(@Url String api_key);
+
 
     /*@GET("movie/{id}")
     Call<MoviesResponse> getMovieDetails(@Path("id") int id, @Query("api_key") String apiKey);*/

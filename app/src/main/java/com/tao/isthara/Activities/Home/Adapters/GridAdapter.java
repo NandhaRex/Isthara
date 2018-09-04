@@ -155,10 +155,11 @@ public class GridAdapter extends BaseAdapter {
                         @Override
                         public void onResponse(Call<CheckOutResponse> call, Response<CheckOutResponse> response) {
                             if (response.body() != null) {
-                                if (!response.body().getIsValid()) {
-                                    Intent i = new Intent(context, CheckoutActivity.class);
-                                    context.startActivity(i);
-                                }
+                                //  if (!response.body().getIsValid()) {
+                                Intent i = new Intent(context, CheckoutActivity.class);
+                                i.putExtra("isCheckedout", response.body().getIsValid());
+                                context.startActivity(i);
+                                //}
                             }
                         }
 

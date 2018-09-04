@@ -93,44 +93,44 @@ public class AppPreferences {
         _prefsEditor.commit();
     }
 
-    public void saveIsCheckOut(boolean value) {
-        _prefsEditor.putBoolean(KEY_IS_CHECKEDOUT, value);
-        _prefsEditor.commit();
-    }
+//    public void saveIsCheckOut(boolean value) {
+//        _prefsEditor.putBoolean(KEY_IS_CHECKEDOUT, value);
+//        _prefsEditor.commit();
+//    }
 
-    public boolean getIsCheckedOut() {
-        return _sharedPrefs.getBoolean(KEY_IS_CHECKEDOUT, false);
-    }
+//    public boolean getIsCheckedOut() {
+//        return _sharedPrefs.getBoolean(KEY_IS_CHECKEDOUT, false);
+//    }
+//
+//    public void saveCheckOutReqDate(String date) {
+//        _prefsEditor.putString(KEY_CHECKEDOUT_DATE, date);
+//        _prefsEditor.commit();
+//    }
 
-    public void saveCheckOutReqDate(String date) {
-        _prefsEditor.putString(KEY_CHECKEDOUT_DATE, date);
-        _prefsEditor.commit();
-    }
-
-    public void saveBankName(String bankName) {
-        _prefsEditor.putString(KEY_BANK_NAME, bankName);
-        _prefsEditor.commit();
-    }
-
-    public void saveAccHolderName(String name) {
-        _prefsEditor.putString(KEY_ACC_HOLDER_NAME, name);
-        _prefsEditor.commit();
-    }
-
-    public void saveAccNo(String accno) {
-        _prefsEditor.putString(KEY_ACC_NO, accno);
-        _prefsEditor.commit();
-    }
-
-    public void saveIFSC(String ifsc) {
-        _prefsEditor.putString(KEY_IFSC, ifsc);
-        _prefsEditor.commit();
-    }
-
-    public void saveReason(String reason){
-        _prefsEditor.putString(KEY_REASON, reason);
-        _prefsEditor.commit();
-    }
+//    public void saveBankName(String bankName) {
+//        _prefsEditor.putString(KEY_BANK_NAME, bankName);
+//        _prefsEditor.commit();
+//    }
+//
+//    public void saveAccHolderName(String name) {
+//        _prefsEditor.putString(KEY_ACC_HOLDER_NAME, name);
+//        _prefsEditor.commit();
+//    }
+//
+//    public void saveAccNo(String accno) {
+//        _prefsEditor.putString(KEY_ACC_NO, accno);
+//        _prefsEditor.commit();
+//    }
+//
+//    public void saveIFSC(String ifsc) {
+//        _prefsEditor.putString(KEY_IFSC, ifsc);
+//        _prefsEditor.commit();
+//    }
+//
+//    public void saveReason(String reason){
+//        _prefsEditor.putString(KEY_REASON, reason);
+//        _prefsEditor.commit();
+//    }
 
     public String getKeyCheckedoutDate() {
         return _sharedPrefs.getString(KEY_CHECKEDOUT_DATE,"");

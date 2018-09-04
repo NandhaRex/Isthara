@@ -35,6 +35,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:text="Resident Name"
+                android:id="@+id/nameHeader"
                 android:textColor="@android:color/darker_gray" />
 
             <TextView
@@ -51,6 +52,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:text="Branch"
+                android:id="@+id/branchHeader"
                 android:textColor="@android:color/darker_gray" />
 
             <TextView
@@ -67,6 +69,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:text="Room No."
+                android:id="@+id/roomNoHeader"
                 android:textColor="@android:color/darker_gray" />
 
             <TextView
@@ -82,6 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
+                android:id="@+id/reasonheader"
                 android:text="Reason for Exit"
                 android:textColor="@android:color/darker_gray" />
 
@@ -114,6 +118,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:text="Date of Exit"
+                android:id="@+id/dateHeader"
                 android:textColor="@android:color/darker_gray" />
 
             <LinearLayout
@@ -159,6 +164,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:text="Bank Name *"
+                android:id="@+id/bankNameHeader"
                 android:textColor="@android:color/darker_gray" />
 
             <EditText
@@ -173,23 +179,12 @@
                 android:singleLine="true"
                 android:background="@drawable/border_style"
                 android:paddingLeft="5dp" />
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_margin="5dp"-->
-                <!--android:background="@drawable/border_style"-->
-                <!--android:paddingLeft="5dp">-->
-
-                <!--<Spinner-->
-                    <!--android:id="@+id/spnr_BankNames"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content" />-->
-            <!--</LinearLayout>-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
+                android:id="@+id/accNameHeader"
                 android:text="Acc. Holder Name *"
                 android:textColor="@android:color/darker_gray" />
 
@@ -211,6 +206,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:text="Acc. No. *"
+                android:id="@+id/accNoHeader"
                 android:textColor="@android:color/darker_gray" />
 
             <EditText
@@ -232,6 +228,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
+                android:id="@+id/ifscHeader"
                 android:text="IFSC Code *"
                 android:textColor="@android:color/darker_gray" />
 
