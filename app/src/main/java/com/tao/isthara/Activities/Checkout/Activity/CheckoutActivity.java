@@ -5,7 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.icu.text.RelativeDateTimeFormatter;
@@ -150,7 +152,7 @@ public class CheckoutActivity extends AppCompatActivity {
             btn_Submit.setVisibility(View.GONE);
             imgCalender.setVisibility(View.GONE);
             layDatePicket.setBackground(null);
-           // txt_datepicker.setText(_appPrefs.getKeyCheckedoutDate());
+            // txt_datepicker.setText(_appPrefs.getKeyCheckedoutDate());
 
             nameheader.setTextColor(Color.BLACK);
             reasonheader.setTextColor(Color.BLACK);
@@ -164,11 +166,12 @@ public class CheckoutActivity extends AppCompatActivity {
 
             reasonForExitSpinner.setVisibility(View.GONE);
             lblreason.setText(_appPrefs.getKeyReason());
+            lblreason.setVisibility(View.VISIBLE);
             layReasonSpinner.setVisibility(View.GONE);
 
             bankName.setBackground(null);
             bankName.setEnabled(false);
-         //   bankName.setText(_appPrefs.getKeyBankName());
+            //   bankName.setText(_appPrefs.getKeyBankName());
 
             iFSC.setBackground(null);
             iFSC.setEnabled(false);
@@ -230,7 +233,7 @@ public class CheckoutActivity extends AppCompatActivity {
             listener = new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    String date = dayOfMonth + "/" + ((month < 10) ? "0" + month : month) + "/" + year;
+                    String date = ((dayOfMonth < 10) ? "0" + dayOfMonth : dayOfMonth) + "/" + ((month < 10) ? "0" + month : month) + "/" + year;
                     txt_datepicker.setText(date);
                 }
             };
@@ -246,8 +249,7 @@ public class CheckoutActivity extends AppCompatActivity {
         call.enqueue(new Callback<CheckOutRequest>() {
             @Override
             public void onResponse(Call<CheckOutRequest> call, Response<CheckOutRequest> response) {
-                if (response.body() != null)
-                {
+                if (response.body() != null) {
                     lblreason.setText(response.body().getReason());
                     txt_datepicker.setText(response.body().getCheckoutDate());
                     bankName.setText(response.body().getBankName());
@@ -294,6 +296,10 @@ public class CheckoutActivity extends AppCompatActivity {
                 public void onResponse(Call<CheckOutResponse> call, Response<CheckOutResponse> response) {
                     if (response.body() != null) {
                         showSnackbar(response.body().getResult());
+                        finish();
+                        Intent intent = new Intent(getApplicationContext(), CheckoutActivity.class);
+                        intent.putExtra("isCheckedout", true);
+                        startActivity(intent);
                     } else {
                         showSnackbar("Error in Submit");
                         btn_Submit.setClickable(true);
