@@ -187,27 +187,33 @@ public class CheckoutActivity extends AppCompatActivity {
             btn_Submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (TextUtils.isEmpty(txt_datepicker.getText()) || TextUtils.isEmpty(iFSC.getText())
+                            || TextUtils.isEmpty(bankName.getText()) || TextUtils.isEmpty(accName.getText())
+                            || TextUtils.isEmpty(accNo.getText())) {
+                        showSnackbar("All fields are mandatory");
 
-                    final AlertDialog alertDialog = new AlertDialog.Builder(CheckoutActivity.this).create();
-                    alertDialog.setTitle("Submit");
-                    alertDialog.setMessage("Do you want to submit Checkout form ?");
-                    alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            CheckAndSubmitForm();
-                        }
-                    });
-                    alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            alertDialog.dismiss();
-                        }
-                    });
-                    alertDialog.show();
-                    alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                    alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
-                    showProgress(false);
-                    btn_Submit.setClickable(true);
+                    } else {
+                        final AlertDialog alertDialog = new AlertDialog.Builder(CheckoutActivity.this).create();
+                        alertDialog.setTitle("Submit");
+                        alertDialog.setMessage("Do you want to submit Checkout form ?");
+                        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                CheckAndSubmitForm();
+                            }
+                        });
+                        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                alertDialog.dismiss();
+                            }
+                        });
+                        alertDialog.show();
+                        alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                        alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+                        showProgress(false);
+                        btn_Submit.setClickable(true);
+                    }
                 }
             });
             layDatePicket.setOnClickListener(new View.OnClickListener() {
@@ -264,55 +270,48 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     private void CheckAndSubmitForm() {
-        if (TextUtils.isEmpty(txt_datepicker.getText()) || TextUtils.isEmpty(iFSC.getText())
-                || TextUtils.isEmpty(bankName.getText()) || TextUtils.isEmpty(accName.getText())
-                || TextUtils.isEmpty(accNo.getText())) {
-            showSnackbar("All fields are mandatory");
+        showProgress(true);
+        btn_Submit.setClickable(false);
+        CheckOutRequest req = new CheckOutRequest();
+        req.setAccountHolderName(accName.getText().toString());
+        req.setAccountNo(accNo.getText().toString());
+        req.setBankName(bankName.getText().toString());
+        req.setCheckoutDate(txt_datepicker.getText().toString());
+        req.setIFSC(iFSC.getText().toString());
+        req.setRequestedBy(_appPrefs.getResidentId());
+        req.setResidentDetailsId(_appPrefs.getResidentId());
+        req.setRequestedVia("AndriodMobileApp");
+        req.setReasonId(reasonForExitSpinner.getSelectedItemPosition() + 1);
 
-        } else {
-            showProgress(true);
-            btn_Submit.setClickable(false);
-            CheckOutRequest req = new CheckOutRequest();
-            req.setAccountHolderName(accName.getText().toString());
-            req.setAccountNo(accNo.getText().toString());
-            req.setBankName(bankName.getText().toString());
-            req.setCheckoutDate(txt_datepicker.getText().toString());
-            req.setIFSC(iFSC.getText().toString());
-            req.setRequestedBy(_appPrefs.getResidentId());
-            req.setResidentDetailsId(_appPrefs.getResidentId());
-            req.setRequestedVia("AndriodMobileApp");
-            req.setReasonId(reasonForExitSpinner.getSelectedItemPosition() + 1);
+        final String API_KEY = Global.BASE_URL + "ResidentCheckoutRequest";
+        final ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+        Call<CheckOutResponse> call = apiService.residentCheckOutRequest(API_KEY, req);
 
-            final String API_KEY = Global.BASE_URL + "ResidentCheckoutRequest";
-            final ApiInterface apiService =
-                    ApiClient.getClient().create(ApiInterface.class);
-            Call<CheckOutResponse> call = apiService.residentCheckOutRequest(API_KEY, req);
-
-            call.enqueue(new Callback<CheckOutResponse>() {
-                @Override
-                public void onResponse(Call<CheckOutResponse> call, Response<CheckOutResponse> response) {
-                    if (response.body() != null) {
-                        showSnackbar(response.body().getResult());
-                        finish();
-                        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                        startActivity(intent);
-                        Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_LONG).show();
-                    } else {
-                        showSnackbar("Error in Submit");
-                        btn_Submit.setClickable(true);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<CheckOutResponse> call, Throwable t) {
-                    showSnackbar("Something went wrong");
+        call.enqueue(new Callback<CheckOutResponse>() {
+            @Override
+            public void onResponse(Call<CheckOutResponse> call, Response<CheckOutResponse> response) {
+                if (response.body() != null) {
+                    showSnackbar(response.body().getResult());
+                    finish();
+                    Intent intent = new Intent(getApplicationContext(), CheckoutActivity.class);
+                    intent.putExtra("isCheckedout", true);
+                    startActivity(intent);
+                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                } else {
+                    showSnackbar("Error in Submit");
                     btn_Submit.setClickable(true);
                 }
-            });
-            showProgress(false);
-        }
-    }
+            }
 
+            @Override
+            public void onFailure(Call<CheckOutResponse> call, Throwable t) {
+                showSnackbar("Something went wrong");
+                btn_Submit.setClickable(true);
+            }
+        });
+        showProgress(false);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

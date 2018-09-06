@@ -142,51 +142,62 @@ public class ProfileActivity extends AppCompatActivity {
         });
         btn_CheckOut.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                final AlertDialog alertDialog = new AlertDialog.Builder(ProfileActivity.this).create();
-                alertDialog.setTitle("Checkout");
-                alertDialog.setMessage("Do you want to Request for Checkout?");
-                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+            public void onClick(View view) {
+                showProgress(true);
+                final String API_KEY = Global.BASE_URL + "IsAlreadyRequestedForCheckOut?ResidentDetailsId=" + _appPrefs.getResidentId();
+
+                final ApiInterface apiService =
+                        ApiClient.getClient().create(ApiInterface.class);
+
+                Call<CheckOutResponse> call = apiService.getCheckOutStatus(API_KEY);
+                call.enqueue(new Callback<CheckOutResponse>() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        showProgress(true);
-                        final String API_KEY = Global.BASE_URL + "IsAlreadyRequestedForCheckOut?ResidentDetailsId=" + _appPrefs.getResidentId();
-
-                        final ApiInterface apiService =
-                                ApiClient.getClient().create(ApiInterface.class);
-
-                        Call<CheckOutResponse> call = apiService.getCheckOutStatus(API_KEY);
-                        call.enqueue(new Callback<CheckOutResponse>() {
-                            @Override
-                            public void onResponse(Call<CheckOutResponse> call, Response<CheckOutResponse> response) {
-                                if (response.body() != null) {
-                                    showProgress(false);
-                                    Intent intent = new Intent(getApplicationContext(), CheckoutActivity.class);
-                                    intent.putExtra("isCheckedout", response.body().getIsValid());
-                                    startActivity(intent);
-                                }
+                    public void onResponse(Call<CheckOutResponse> call, Response<CheckOutResponse> response) {
+                        if (response.body() != null) {
+                            showProgress(false);
+                            if (!response.body().getIsValid()) {
+                                final AlertDialog alertDialog = new AlertDialog.Builder(ProfileActivity.this).create();
+                                alertDialog.setTitle("Checkout");
+                                alertDialog.setMessage("Do you want to Request for Checkout?");
+                                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        showProgress(false);
+                                        StartCheckoutActivity(false);
+                                    }
+                                });
+                                alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        alertDialog.dismiss();
+                                        showProgress(false);
+                                    }
+                                });
+                                alertDialog.show();
+                                alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                                alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+                            } else {
+                                StartCheckoutActivity(response.body().getIsValid());
                             }
-                            @Override
-                            public void onFailure(Call<CheckOutResponse> call, Throwable t) {
-                                showProgress(false);
-                            }
-                        });
+                        }
                     }
-                });
-                alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        alertDialog.dismiss();
+                    public void onFailure(Call<CheckOutResponse> call, Throwable t) {
                         showProgress(false);
                     }
                 });
-                alertDialog.show();
-                alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+
             }
         });
         showProgress(true);
         getProfileDetails();
+    }
+
+    private void StartCheckoutActivity(boolean result) {
+        Intent intent = new Intent(getApplicationContext(), CheckoutActivity.class);
+        intent.putExtra("isCheckedout", result);
+        startActivity(intent);
     }
 
     private boolean isValidPhoneNumber(String text) {

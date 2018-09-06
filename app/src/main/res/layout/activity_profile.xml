@@ -26,7 +26,6 @@
             android:layout_height="wrap_content"
             android:text="Checkout"
             android:background="@null"
-            android:textAllCaps="false"
             android:layout_margin="5dp"
             android:textSize="18sp"/>
 
