@@ -20,6 +20,15 @@
             android:elevation="2dp"
             android:layout_alignParentRight="true"
             android:background="@drawable/ic_edit" />
+        <Button
+            android:id="@+id/btn_CheckOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Checkout"
+            android:background="@null"
+            android:textAllCaps="false"
+            android:layout_margin="5dp"
+            android:textSize="18sp"/>
 
         <ScrollView
             android:id="@+id/form"

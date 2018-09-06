@@ -4,8 +4,10 @@ package com.tao.isthara.Activities.Profile;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -27,12 +29,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.geniusforapp.fancydialog.FancyAlertDialog;
+import com.tao.isthara.Activities.Checkout.Activity.CheckoutActivity;
 import com.tao.isthara.Activities.HelpDeskCreateNew.Activity.CategoriesRecyclerViewActivity;
 import com.tao.isthara.Activities.HelpDeskCreateNew.Activity.HelpDeskCreateNewActivity;
 import com.tao.isthara.Activities.HelpDeskCreateNew.Adapters.SingleSelectionAdapter;
 import com.tao.isthara.Activities.Login.Activity.LoginActivity;
 import com.tao.isthara.Activities.Splash.Activity.SplashActivity;
 import com.tao.isthara.Model.Categories;
+import com.tao.isthara.Model.CheckOutResponse;
 import com.tao.isthara.Model.ProfileRecords;
 import com.tao.isthara.Model.ProfileResponse;
 import com.tao.isthara.Model.ProfileUpdateResponse;
@@ -61,6 +65,7 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText txtSecMobile, txtEmail;
     private ImageButton btnEditProfile;
     private boolean isEditable;
+    private Button btn_CheckOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +73,12 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         mContext = this;
 
-        getSupportActionBar().setTitle("MY PROFILE");
-        getSupportActionBar().setElevation(0);
+        try {
+            getSupportActionBar().setElevation(0);
+            getSupportActionBar().setTitle("MY PROFILE");
+        } catch (Exception e) {
+
+        }
 
         _appPrefs = new AppPreferences(getApplicationContext());
         mCoordinatorLayout = (ConstraintLayout) findViewById(R.id.coordinatorLayout);
@@ -84,6 +93,7 @@ public class ProfileActivity extends AppCompatActivity {
         txtSecMobile = (EditText) findViewById(R.id.secmobile);
         txtEmail = (EditText) findViewById(R.id.emailId);
 
+        btn_CheckOut = (Button) findViewById(R.id.btn_CheckOut);
         btnLogout = (Button) findViewById(R.id.btn_logout);
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +138,51 @@ public class ProfileActivity extends AppCompatActivity {
                     btnEditProfile.setBackgroundResource(R.drawable.ic_tick);
                     btnEditProfile.setScaleType(ImageView.ScaleType.FIT_XY);
                 }
+            }
+        });
+        btn_CheckOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog alertDialog = new AlertDialog.Builder(ProfileActivity.this).create();
+                alertDialog.setTitle("Checkout");
+                alertDialog.setMessage("Do you want to Request for Checkout?");
+                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showProgress(true);
+                        final String API_KEY = Global.BASE_URL + "IsAlreadyRequestedForCheckOut?ResidentDetailsId=" + _appPrefs.getResidentId();
+
+                        final ApiInterface apiService =
+                                ApiClient.getClient().create(ApiInterface.class);
+
+                        Call<CheckOutResponse> call = apiService.getCheckOutStatus(API_KEY);
+                        call.enqueue(new Callback<CheckOutResponse>() {
+                            @Override
+                            public void onResponse(Call<CheckOutResponse> call, Response<CheckOutResponse> response) {
+                                if (response.body() != null) {
+                                    showProgress(false);
+                                    Intent intent = new Intent(getApplicationContext(), CheckoutActivity.class);
+                                    intent.putExtra("isCheckedout", response.body().getIsValid());
+                                    startActivity(intent);
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<CheckOutResponse> call, Throwable t) {
+                                showProgress(false);
+                            }
+                        });
+                    }
+                });
+                alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertDialog.dismiss();
+                        showProgress(false);
+                    }
+                });
+                alertDialog.show();
+                alertDialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
             }
         });
         showProgress(true);

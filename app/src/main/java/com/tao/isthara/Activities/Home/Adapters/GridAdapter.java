@@ -144,37 +144,11 @@ public class GridAdapter extends BaseAdapter {
                     Intent i = new Intent(context, ProfileActivity.class);
                     context.startActivity(i);
                 } else if (result[position].equals("CHECK OUT")) {
-
-                    final String API_KEY = Global.BASE_URL + "IsAlreadyRequestedForCheckOut?ResidentDetailsId=" + _appPrefs.getResidentId();
-
-                    final ApiInterface apiService =
-                            ApiClient.getClient().create(ApiInterface.class);
-
-                    Call<CheckOutResponse> call = apiService.getCheckOutStatus(API_KEY);
-                    call.enqueue(new Callback<CheckOutResponse>() {
-                        @Override
-                        public void onResponse(Call<CheckOutResponse> call, Response<CheckOutResponse> response) {
-                            if (response.body() != null) {
-                                //  if (!response.body().getIsValid()) {
-                                Intent i = new Intent(context, CheckoutActivity.class);
-                                i.putExtra("isCheckedout", response.body().getIsValid());
-                                context.startActivity(i);
-                                //}
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<CheckOutResponse> call, Throwable t) {
-
-                        }
-                    });
-
                 } else {
                     //Toast.makeText(context, "You Clicked " + result[position], Toast.LENGTH_LONG).show();
                 }
             }
         });
-
         return rowView;
     }
 

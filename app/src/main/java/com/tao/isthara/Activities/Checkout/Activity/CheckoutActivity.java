@@ -34,7 +34,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.tao.isthara.Activities.Profile.ProfileActivity;
 import com.tao.isthara.Model.CheckOutRequest;
 import com.tao.isthara.Model.CheckOutResponse;
 import com.tao.isthara.Model.CheckoutReasonResponse;
@@ -152,7 +154,6 @@ public class CheckoutActivity extends AppCompatActivity {
             btn_Submit.setVisibility(View.GONE);
             imgCalender.setVisibility(View.GONE);
             layDatePicket.setBackground(null);
-            // txt_datepicker.setText(_appPrefs.getKeyCheckedoutDate());
 
             nameheader.setTextColor(Color.BLACK);
             reasonheader.setTextColor(Color.BLACK);
@@ -171,11 +172,9 @@ public class CheckoutActivity extends AppCompatActivity {
 
             bankName.setBackground(null);
             bankName.setEnabled(false);
-            //   bankName.setText(_appPrefs.getKeyBankName());
 
             iFSC.setBackground(null);
             iFSC.setEnabled(false);
-            //iFSC.setText(_appPrefs.getKeyIfsc());
 
             accName.setBackground(null);
             accName.setEnabled(false);
@@ -183,13 +182,11 @@ public class CheckoutActivity extends AppCompatActivity {
 
             accNo.setBackground(null);
             accNo.setEnabled(false);
-            //accNo.setText(_appPrefs.getAccNo());
             GetcheckedOutData();
         } else {
             btn_Submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // btn_Submit.setClickable(false);
 
                     final AlertDialog alertDialog = new AlertDialog.Builder(CheckoutActivity.this).create();
                     alertDialog.setTitle("Submit");
@@ -297,9 +294,9 @@ public class CheckoutActivity extends AppCompatActivity {
                     if (response.body() != null) {
                         showSnackbar(response.body().getResult());
                         finish();
-                        Intent intent = new Intent(getApplicationContext(), CheckoutActivity.class);
-                        intent.putExtra("isCheckedout", true);
+                        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                         startActivity(intent);
+                        Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_LONG).show();
                     } else {
                         showSnackbar("Error in Submit");
                         btn_Submit.setClickable(true);
