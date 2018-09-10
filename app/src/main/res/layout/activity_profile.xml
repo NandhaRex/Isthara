@@ -11,23 +11,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ImageButton
             android:id="@+id/btn_edit"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:padding="16dp"
-            android:layout_margin="10dp"
-            android:elevation="2dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/ic_edit" />
-        <Button
-            android:id="@+id/btn_CheckOut"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Checkout"
-            android:background="@null"
-            android:layout_margin="5dp"
-            android:textSize="18sp"/>
+            android:layout_margin="10dp"
+            android:background="@drawable/ic_edit"
+            android:elevation="2dp"
+            android:padding="16dp" />
 
         <ScrollView
             android:id="@+id/form"
@@ -59,43 +52,44 @@
                     android:text=""
                     android:textSize="24sp"
                     android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/mobile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16dp"
                     android:layout_marginTop="12dp"
                     android:elevation="4dp"
-                    android:text="" />
+                    android:text=""
+                    android:textSize="16dp" />
 
                 <EditText
                     android:id="@+id/secmobile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16dp"
-                    android:singleLine="true"
-                    android:inputType="number"
-                    android:textAlignment="center"
-                    android:focusable="false"
-                    android:maxLength="10"
-                    android:hint="Alternative Mobile No."
-                    android:focusableInTouchMode="false"
                     android:layout_marginTop="12dp"
                     android:background="@null"
-                    android:text="" />
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="Alternative Mobile No."
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textSize="16dp" />
 
                 <EditText
                     android:id="@+id/emailId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16dp"
-                    android:singleLine="true"
                     android:layout_marginTop="12dp"
-                    android:hint="Email Id"
                     android:background="@null"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
-                    android:text="" />
+                    android:hint="Email Id"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/room_block_info"
@@ -111,10 +105,28 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:elevation="4dp"
-                    android:textSize="16dp"
-                    android:text="" />
+                    android:text=""
+                    android:textSize="16dp" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:alpha="0.5"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@android:color/darker_gray" />
 
+                <Button
+                    android:id="@+id/btn_CheckOut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@null"
+                    android:textAllCaps="false"
+                    android:text="Exit form"
+                    android:textSize="18sp" />
 
             </LinearLayout>
         </ScrollView>
@@ -127,7 +139,7 @@
             android:layout_alignParentTop="true"
             android:indeterminate="true"
             android:indeterminateBehavior="repeat"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_logout"
@@ -136,7 +148,7 @@
             android:layout_alignParentBottom="true"
             android:background="@color/colorPrimaryDark"
             android:text="LOGOUT"
-            android:visibility="gone"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:visibility="gone" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

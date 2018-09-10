@@ -297,7 +297,8 @@ public class CheckoutActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), CheckoutActivity.class);
                     intent.putExtra("isCheckedout", true);
                     startActivity(intent);
-                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Your exit form has been successfully submitted.",
+                            Toast.LENGTH_LONG).show();
                 } else {
                     showSnackbar("Error in Submit");
                     btn_Submit.setClickable(true);
