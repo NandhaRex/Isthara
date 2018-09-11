@@ -69,4 +69,13 @@ public class CheckOutRequest {
 
     public void setRequestedBy(int RequestedBy) { this.RequestedBy = RequestedBy; }
 
+    private String ResidentFeedBack;
+
+    public String getResidentFeedBack() {
+        return ResidentFeedBack;
+    }
+
+    public void setResidentFeedBack(String residentFeedBack) {
+        ResidentFeedBack = residentFeedBack;
+    }
 }

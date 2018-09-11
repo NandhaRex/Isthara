@@ -79,7 +79,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private ArrayList<Records> reasonAndValueList;
     private Button btn_Submit;
     private LinearLayout layDatePicket;
-    private EditText bankName, accName, iFSC, accNo;
+    private EditText bankName, accName, iFSC, accNo, feedBack;
     private boolean ischeckedOut;
     private ImageView imgCalender;
     private TextView lblreason;
@@ -88,6 +88,7 @@ public class CheckoutActivity extends AppCompatActivity {
             branchHeader, roomNoHeader,
             dateHeader, bankNameHeader,
             accNameHeader, accNoHeader, ifscHeader;
+    private TextView lblfeedBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,12 +117,14 @@ public class CheckoutActivity extends AppCompatActivity {
         guestName = (TextView) findViewById(R.id.lbl_Name);
         branchName = (TextView) findViewById(R.id.lbl_branch);
         roomNo = (TextView) findViewById(R.id.lbl_roomNo);
+        lblfeedBack = (TextView) findViewById(R.id.lbl_feedback);
         mProgressView = (ProgressBar) findViewById(R.id.progress);
         mRelativeLayout = (RelativeLayout) findViewById(R.id.layCheckOut);
         lblreason = (TextView) findViewById(R.id.lblreason);
         layReasonSpinner = (LinearLayout) findViewById(R.id.layReasonSpinner);
         btn_Submit = (Button) findViewById(R.id.btn_Submit);
         bankName = (EditText) findViewById(R.id.txt_BankName);
+        feedBack = (EditText) findViewById(R.id.txt_feedback);
         accName = (EditText) findViewById(R.id.txt_accntHolderName);
         iFSC = (EditText) findViewById(R.id.txt_ifsccode);
         accNo = (EditText) findViewById(R.id.txt_accntNo);
@@ -164,6 +167,7 @@ public class CheckoutActivity extends AppCompatActivity {
             accNameHeader.setTextColor(Color.BLACK);
             accNoHeader.setTextColor(Color.BLACK);
             ifscHeader.setTextColor(Color.BLACK);
+            lblfeedBack.setTextColor(Color.BLACK);
 
             reasonForExitSpinner.setVisibility(View.GONE);
             lblreason.setText(_appPrefs.getKeyReason());
@@ -179,6 +183,9 @@ public class CheckoutActivity extends AppCompatActivity {
             accName.setBackground(null);
             accName.setEnabled(false);
             accName.setText(_appPrefs.getAccHolderName());
+
+            feedBack.setBackground(null);
+            feedBack.setEnabled(false);
 
             accNo.setBackground(null);
             accNo.setEnabled(false);
@@ -238,6 +245,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                     String date = ((dayOfMonth < 10) ? "0" + dayOfMonth : dayOfMonth) + "/" + ((month < 10) ? "0" + month : month) + "/" + year;
                     txt_datepicker.setText(date);
+                    layDatePicket.setEnabled(true);
                 }
             };
         }
@@ -259,6 +267,12 @@ public class CheckoutActivity extends AppCompatActivity {
                     accName.setText(response.body().getAccountHolderName());
                     accNo.setText(response.body().getAccountNo());
                     iFSC.setText(response.body().getIFSC());
+                    if (TextUtils.isEmpty(response.body().getResidentFeedBack()) || response.body().getResidentFeedBack().length() < 1) {
+                        lblfeedBack.setVisibility(View.GONE);
+                        feedBack.setVisibility(View.GONE);
+                    } else {
+                        feedBack.setText(response.body().getResidentFeedBack());
+                    }
                 }
             }
 
@@ -282,6 +296,8 @@ public class CheckoutActivity extends AppCompatActivity {
         req.setResidentDetailsId(_appPrefs.getResidentId());
         req.setRequestedVia("AndriodMobileApp");
         req.setReasonId(reasonForExitSpinner.getSelectedItemPosition() + 1);
+        req.setResidentFeedBack(feedBack.getText().toString());
+
 
         final String API_KEY = Global.BASE_URL + "ResidentCheckoutRequest";
         final ApiInterface apiService =
