@@ -89,7 +89,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:id="@+id/reasonheader"
-                android:text="Reason for Exit"
+                android:text="Reason for Exit *"
                 android:textColor="@android:color/darker_gray" />
 
             <TextView
@@ -120,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
-                android:text="Date of Exit"
+                android:text="Date of Exit *"
                 android:id="@+id/dateHeader"
                 android:textColor="@android:color/darker_gray" />
 

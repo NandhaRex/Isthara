@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.icu.text.RelativeDateTimeFormatter;
+import android.icu.util.LocaleData;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -52,11 +53,18 @@ import com.tao.isthara.Utils.Global;
 import org.json.JSONObject;
 
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.Year;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -89,6 +97,7 @@ public class CheckoutActivity extends AppCompatActivity {
             dateHeader, bankNameHeader,
             accNameHeader, accNoHeader, ifscHeader;
     private TextView lblfeedBack;
+    private int selectedYear, selectedMonth, selectedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +107,7 @@ public class CheckoutActivity extends AppCompatActivity {
         _appPrefs = new AppPreferences(getApplicationContext());
         ischeckedOut = getIntent().getExtras().getBoolean("isCheckedout");
 
-        getSupportActionBar().setTitle("EXIT FORM");
+        getSupportActionBar().setTitle("CHECKOUT FORM");
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -202,7 +211,12 @@ public class CheckoutActivity extends AppCompatActivity {
                     } else {
                         final AlertDialog alertDialog = new AlertDialog.Builder(CheckoutActivity.this).create();
                         alertDialog.setTitle("Submit");
-                        alertDialog.setMessage("Do you want to submit Checkout form ?");
+                        if (CheckOutDueDate(selectedDate, selectedMonth, selectedYear)) {
+                            alertDialog.setMessage("Your requested exit date is less than the notice period of " +
+                                    "15 days and you might be charged for these  non-notice period days \nDo you want to proceed?");
+                        } else {
+                            alertDialog.setMessage("Do you want to submit Checkout form ?");
+                        }
                         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -230,6 +244,7 @@ public class CheckoutActivity extends AppCompatActivity {
                     DatePickerDialog dialog = new DatePickerDialog(CheckoutActivity.this,
                             listener, calender.get(Calendar.YEAR), calender.get(Calendar.MONTH), calender.get(Calendar.DATE));
                     dialog.show();
+                    dialog.getDatePicker().setMinDate(System.currentTimeMillis());
                     dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -245,10 +260,28 @@ public class CheckoutActivity extends AppCompatActivity {
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                     String date = ((dayOfMonth < 10) ? "0" + dayOfMonth : dayOfMonth) + "/" + ((month < 10) ? "0" + month : month) + "/" + year;
                     txt_datepicker.setText(date);
+                    selectedYear = year;
+                    selectedMonth = month;
+                    selectedDate = dayOfMonth;
                     layDatePicket.setEnabled(true);
                 }
             };
         }
+    }
+
+    private boolean CheckOutDueDate(int dayOfMonth, int month, int year) {
+
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(calender.get(Calendar.YEAR), calender.get(Calendar.MONTH), calender.get(Calendar.DATE));
+        long startDateMillis = startDate.getTimeInMillis();
+
+        Calendar endDate = Calendar.getInstance();
+        endDate.set(year, month, dayOfMonth);
+        long endDateMillis = endDate.getTimeInMillis();
+
+        long differenceMillis = endDateMillis - startDateMillis;
+        int daysDifference = (int) (differenceMillis / (1000 * 60 * 60 * 24));
+        return daysDifference < 15 ? true : false;
     }
 
     private void GetcheckedOutData() {
@@ -313,7 +346,7 @@ public class CheckoutActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), CheckoutActivity.class);
                     intent.putExtra("isCheckedout", true);
                     startActivity(intent);
-                    Toast.makeText(getApplicationContext(), "Your exit form has been successfully submitted.",
+                    Toast.makeText(getApplicationContext(), "Your checkout form has been successfully submitted.",
                             Toast.LENGTH_LONG).show();
                 } else {
                     showSnackbar("Error in Submit");
