@@ -40,7 +40,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     public static AppCompatActivity activity;
 
     Context context;
-    private int imageId;
+    private int eventDetailsID;
     private ImageView imageView;
     private ProgressBar mProgressView;
 
@@ -52,21 +52,23 @@ public class EventDetailsActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
-                imageId = extras.getInt("image");
+                eventDetailsID = extras.getInt("eventDetaildID");
             }
         } else {
-            imageId = (int) savedInstanceState.getSerializable("image");
+            eventDetailsID = (int) savedInstanceState.getSerializable("eventDetaildID");
         }
 
         setContentView(R.layout.activity_events_details);
         activity = this;
         mProgressView = (ProgressBar) findViewById(R.id.progress);
         showProgress(true);
- /*       getSupportActionBar().setTitle("Events");
+
+        /*getSupportActionBar().setTitle("Events");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);*/
+
         imageView = findViewById(R.id.banner);
-        final String API_KEY = Global.BASE_URL + "GetEventDetailsImageByEventDetails_Id?EventDetails_Id=" + imageId;
+        final String API_KEY = Global.BASE_URL + "GetEventDetailsImageByEventDetails_Id?EventDetails_Id=" + eventDetailsID;
 
         final ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);

@@ -118,11 +118,11 @@ public class GridAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                final int imageId = recordList.get(position).getEventDetailsId();
+                final int eventDetailsId = recordList.get(position).getEventDetailsId();
                 if (recordList.get(position).getIsLinkGivenToEventDetail())
                 {
                     Intent i = new Intent(context, EventDetailsActivity.class);
-                    i.putExtra("image", imageId);
+                    i.putExtra("eventDetaildID", eventDetailsId);
                     context.startActivity(i);
                 }
 //                final String API_KEY = Global.BASE_URL + "GetEventDetailsImageByEventDetails_Id?EventDetails_Id=" + imageId;

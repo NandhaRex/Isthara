@@ -213,9 +213,9 @@ public class CheckoutActivity extends AppCompatActivity {
                         alertDialog.setTitle("Submit");
                         if (CheckOutDueDate(selectedDate, selectedMonth, selectedYear)) {
                             alertDialog.setMessage("Your requested exit date is less than the notice period of " +
-                                    "15 days and you might be charged for these  non-notice period days \nDo you want to proceed?");
+                                    "15 days and you might be charged for these non-notice period days \nDo you want to proceed?");
                         } else {
-                            alertDialog.setMessage("Do you want to submit Checkout form ?");
+                            alertDialog.setMessage("Do you want to submit the Checkout form?");
                         }
                         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
                             @Override
