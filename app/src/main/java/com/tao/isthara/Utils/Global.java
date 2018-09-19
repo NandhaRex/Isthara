@@ -9,5 +9,5 @@ public class Global {
 
     /*Live*/
     //public static String BASE_URL = "http://isthara.xcdsys.com/api/MobileAPI/";
-     public static String BASE_URL = "http://isthara.xcdsys.com/test/api/MobileAPI/";
+    public static String BASE_URL = "http://isthara.xcdsys.com/test/api/MobileAPI/";
 }

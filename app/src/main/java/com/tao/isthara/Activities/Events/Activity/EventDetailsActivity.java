@@ -117,9 +117,10 @@ public class EventDetailsActivity extends AppCompatActivity {
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
 //                WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         getSupportActionBar().setTitle("Event Details");
+        getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
     }
 
@@ -143,13 +144,13 @@ public class EventDetailsActivity extends AppCompatActivity {
                     eventName.setText(eventData.getEventName());
                     eventDate.setText(eventData.getEventDate().replace(",", "\n"));
                     eventVenue.setText(eventData.getEventVenue());
-                    if (TextUtils.isEmpty(eventData.getEventStartTime())) {
+                    if (!TextUtils.isEmpty(eventData.getEventStartTime())) {
                         eventst.setText(eventData.getEventStartTime());
                     } else {
                         startTimeRow.setVisibility(View.GONE);
                         line1.setVisibility(View.GONE);
                     }
-                    if (TextUtils.isEmpty(eventData.getEventEndTime())) {
+                    if (!TextUtils.isEmpty(eventData.getEventEndTime())) {
                         eventet.setText(eventData.getEventEndTime());
                     } else {
                         endTimeRow.setVisibility(View.GONE);
@@ -183,11 +184,10 @@ public class EventDetailsActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_close_white, menu);
+        getMenuInflater().inflate(R.menu.menu_help_desk_create_new, menu);
         return true;
     }
 
@@ -199,7 +199,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_close) {
+        if (id == R.id.action_close || id == android.R.id.home) {
             finish();
             return true;
         }
