@@ -5,24 +5,15 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.icu.text.RelativeDateTimeFormatter;
-import android.icu.util.LocaleData;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.Editable;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -37,7 +28,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.tao.isthara.Activities.Profile.ProfileActivity;
 import com.tao.isthara.Model.CheckOutRequest;
 import com.tao.isthara.Model.CheckOutResponse;
 import com.tao.isthara.Model.CheckoutReasonResponse;
@@ -50,27 +40,14 @@ import com.tao.isthara.Rest.ApiInterface;
 import com.tao.isthara.Utils.AppPreferences;
 import com.tao.isthara.Utils.Global;
 
-import org.json.JSONObject;
-
-import java.math.BigInteger;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Year;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Converter;
 import retrofit2.Response;
+
+//import android.icu.util.LocaleData;
 
 public class CheckoutActivity extends AppCompatActivity {
 

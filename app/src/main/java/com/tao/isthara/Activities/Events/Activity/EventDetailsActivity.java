@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,13 +21,20 @@ import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
+import android.widget.Scroller;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.tao.isthara.Activities.Events.Adapter.GridAdapter;
+import com.tao.isthara.Model.EventData;
 import com.tao.isthara.Model.EventsHeaderImageResponse;
 import com.tao.isthara.R;
 import com.tao.isthara.Rest.ApiClient;
 import com.tao.isthara.Rest.ApiInterface;
 import com.tao.isthara.Utils.Global;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -41,8 +49,16 @@ public class EventDetailsActivity extends AppCompatActivity {
 
     Context context;
     private int eventDetailsID;
-    private ImageView imageView;
+    private ImageView imageView, imageViewForData;
     private ProgressBar mProgressView;
+    private String eventDetailType;
+    private String API_KEY;
+    private ScrollView detailsForm;
+    private TextView eventName, eventDate,
+            eventVenue;
+    private TableRow startTimeRow, endTimeRow;
+    private TextView eventst, eventet;
+    private View line2, line1;
 
 
     @Override
@@ -53,9 +69,11 @@ public class EventDetailsActivity extends AppCompatActivity {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 eventDetailsID = extras.getInt("eventDetaildID");
+                eventDetailType = extras.getString("detailType");
             }
         } else {
             eventDetailsID = (int) savedInstanceState.getSerializable("eventDetaildID");
+            eventDetailType = (String) savedInstanceState.getSerializable("detailType");
         }
 
         setContentView(R.layout.activity_events_details);
@@ -68,7 +86,44 @@ public class EventDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);*/
 
         imageView = findViewById(R.id.banner);
-        final String API_KEY = Global.BASE_URL + "GetEventDetailsImageByEventDetails_Id?EventDetails_Id=" + eventDetailsID;
+
+        detailsForm = findViewById(R.id.form);
+        imageViewForData = findViewById(R.id.bannerForData);
+        eventName = (TextView) findViewById(R.id.eventName);
+        eventDate = (TextView) findViewById(R.id.eventDate);
+        eventVenue = (TextView) findViewById(R.id.eventVenue);
+
+        startTimeRow = (TableRow) findViewById(R.id.startTimeRow);
+        eventst = (TextView) findViewById(R.id.eventST);
+
+        endTimeRow = (TableRow) findViewById(R.id.endTimeRow);
+        eventet = (TextView) findViewById(R.id.eventET);
+
+        line1 = findViewById(R.id.lineBelowStartTime);
+        line2 = findViewById(R.id.lineBelowEndTime);
+
+        if (eventDetailType.equals("Image")) {
+            API_KEY = Global.BASE_URL + "GetEventDetailsImageByEventDetails_Id?EventDetails_Id=" + eventDetailsID;
+            detailsForm.setVisibility(View.GONE);
+            GetEventDetails(API_KEY);
+
+        } else {
+            API_KEY = Global.BASE_URL + "GetEventDetailsByEventDetails_Id?EventDetails_Id=" + eventDetailsID;
+            imageView.setVisibility(View.GONE);
+            GetEventDetails(API_KEY);
+        }
+
+
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
+//                WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        getSupportActionBar().setTitle("Event Details");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+    }
+
+    private void GetEventDetails(String api_key) {
 
         final ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
@@ -77,13 +132,29 @@ public class EventDetailsActivity extends AppCompatActivity {
         call.enqueue(new Callback<EventsHeaderImageResponse>() {
             @Override
             public void onResponse(Call<EventsHeaderImageResponse> call, Response<EventsHeaderImageResponse> response) {
-                int respCode = response.code();
-                if (response.body().getHeaderImage().size() > 0) {
+                if (response.body().getHeaderImage().size() > 0 && response.body().getHeaderImage() != null && eventDetailType.equals("Image")) {
                     String data = response.body().getHeaderImage().get(0).getDocumentData();
-                    byte[] decodedString = Base64.decode(data, Base64.DEFAULT);
-                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                     imageView.setVisibility(View.VISIBLE);
-                    imageView.setImageBitmap(decodedByte);
+                    imageView.setImageBitmap(GetEventImage(data));
+                } else {
+                    String data = response.body().getHeaderImage().get(0).getDocumentData();
+                    imageViewForData.setImageBitmap(GetEventImage(data));
+                    EventData eventData = response.body().getEventData();
+                    eventName.setText(eventData.getEventName());
+                    eventDate.setText(eventData.getEventDate().replace(",", "\n"));
+                    eventVenue.setText(eventData.getEventVenue());
+                    if (TextUtils.isEmpty(eventData.getEventStartTime())) {
+                        eventst.setText(eventData.getEventStartTime());
+                    } else {
+                        startTimeRow.setVisibility(View.GONE);
+                        line1.setVisibility(View.GONE);
+                    }
+                    if (TextUtils.isEmpty(eventData.getEventEndTime())) {
+                        eventet.setText(eventData.getEventEndTime());
+                    } else {
+                        endTimeRow.setVisibility(View.GONE);
+                        line2.setVisibility(View.GONE);
+                    }
                 }
                 showProgress(false);
             }
@@ -94,12 +165,12 @@ public class EventDetailsActivity extends AppCompatActivity {
             }
         });
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
-                WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        getSupportActionBar().setElevation(0);
-        getSupportActionBar().setTitle("");
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    }
 
+    private Bitmap GetEventImage(String data) {
+        byte[] decodedString = Base64.decode(data, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        return decodedByte;
     }
 
     protected void setStatusBarTranslucent(boolean makeTranslucent) {

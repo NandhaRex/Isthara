@@ -121,9 +121,10 @@ public class GridAdapter extends BaseAdapter {
                 final int eventDetailsId = recordList.get(position).getEventDetailsId();
                 if (recordList.get(position).getIsLinkGivenToEventDetail())
                 {
-                    Intent i = new Intent(context, EventDetailsActivity.class);
-                    i.putExtra("eventDetaildID", eventDetailsId);
-                    context.startActivity(i);
+                    Intent intent = new Intent(context, EventDetailsActivity.class);
+                    intent.putExtra("eventDetaildID", eventDetailsId);
+                    intent.putExtra("detailType",recordList.get(position).getEventDetailsType());
+                    context.startActivity(intent);
                 }
 //                final String API_KEY = Global.BASE_URL + "GetEventDetailsImageByEventDetails_Id?EventDetails_Id=" + imageId;
 //
