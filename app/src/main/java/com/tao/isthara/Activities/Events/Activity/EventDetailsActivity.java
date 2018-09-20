@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Scroller;
@@ -56,9 +57,9 @@ public class EventDetailsActivity extends AppCompatActivity {
     private ScrollView detailsForm;
     private TextView eventName, eventDate,
             eventVenue;
-    private TableRow startTimeRow, endTimeRow;
     private TextView eventst, eventet;
-    private View line2, line1;
+    private View line2;
+    private LinearLayout eventTimeLayout;
 
 
     @Override
@@ -93,13 +94,10 @@ public class EventDetailsActivity extends AppCompatActivity {
         eventDate = (TextView) findViewById(R.id.eventDate);
         eventVenue = (TextView) findViewById(R.id.eventVenue);
 
-        startTimeRow = (TableRow) findViewById(R.id.startTimeRow);
         eventst = (TextView) findViewById(R.id.eventST);
-
-        endTimeRow = (TableRow) findViewById(R.id.endTimeRow);
         eventet = (TextView) findViewById(R.id.eventET);
 
-        line1 = findViewById(R.id.lineBelowStartTime);
+        eventTimeLayout = (LinearLayout)findViewById(R.id.eventTimeLayout);
         line2 = findViewById(R.id.lineBelowEndTime);
 
         if (eventDetailType.equals("Image")) {
@@ -147,13 +145,11 @@ public class EventDetailsActivity extends AppCompatActivity {
                     if (!TextUtils.isEmpty(eventData.getEventStartTime())) {
                         eventst.setText(eventData.getEventStartTime());
                     } else {
-                        startTimeRow.setVisibility(View.GONE);
-                        line1.setVisibility(View.GONE);
+                        eventTimeLayout.setVisibility(View.GONE);
                     }
                     if (!TextUtils.isEmpty(eventData.getEventEndTime())) {
                         eventet.setText(eventData.getEventEndTime());
                     } else {
-                        endTimeRow.setVisibility(View.GONE);
                         line2.setVisibility(View.GONE);
                     }
                 }
