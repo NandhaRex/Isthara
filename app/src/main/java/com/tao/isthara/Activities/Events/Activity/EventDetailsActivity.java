@@ -60,6 +60,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     private TextView eventst, eventet;
     private View line2;
     private LinearLayout eventTimeLayout;
+    private View hippenView;
 
 
     @Override
@@ -80,6 +81,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_events_details);
         activity = this;
         mProgressView = (ProgressBar) findViewById(R.id.progress);
+        hippenView = (View)findViewById(R.id.hippenView);
         showProgress(true);
 
         /*getSupportActionBar().setTitle("Events");
@@ -146,11 +148,12 @@ public class EventDetailsActivity extends AppCompatActivity {
                         eventst.setText(eventData.getEventStartTime());
                     } else {
                         eventTimeLayout.setVisibility(View.GONE);
+                        line2.setVisibility(View.GONE);
                     }
                     if (!TextUtils.isEmpty(eventData.getEventEndTime())) {
                         eventet.setText(eventData.getEventEndTime());
                     } else {
-                        line2.setVisibility(View.GONE);
+                        hippenView.setVisibility(View.GONE);
                     }
                 }
                 showProgress(false);
