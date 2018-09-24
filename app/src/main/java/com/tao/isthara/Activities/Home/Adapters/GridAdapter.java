@@ -17,24 +17,15 @@ import android.widget.TextView;
 
 import com.geniusforapp.fancydialog.FancyAlertDialog;
 import com.onesignal.OneSignal;
-import com.tao.isthara.Activities.Checkout.Activity.CheckoutActivity;
 import com.tao.isthara.Activities.Events.Activity.EventListActivity;
 import com.tao.isthara.Activities.FoodMenu.Activity.FoodMenuActivity;
 import com.tao.isthara.Activities.HelpDeskList.Activity.HelpDeskListActivity;
 import com.tao.isthara.Activities.Login.Activity.LoginActivity;
 import com.tao.isthara.Activities.Home.Activity.MainActivity;
+import com.tao.isthara.Activities.Payment.Activity.PaymentActivity;
 import com.tao.isthara.Activities.Profile.ProfileActivity;
-import com.tao.isthara.Model.CheckOutRequest;
-import com.tao.isthara.Model.CheckOutResponse;
 import com.tao.isthara.R;
-import com.tao.isthara.Rest.ApiClient;
-import com.tao.isthara.Rest.ApiInterface;
 import com.tao.isthara.Utils.AppPreferences;
-import com.tao.isthara.Utils.Global;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class GridAdapter extends BaseAdapter {
     private AppPreferences _appPrefs;
@@ -144,6 +135,9 @@ public class GridAdapter extends BaseAdapter {
                     Intent i = new Intent(context, ProfileActivity.class);
                     context.startActivity(i);
                 } else if (result[position].equals("CHECK OUT")) {
+                } else if (result[position].equals("PAYMENTS")) {
+                    Intent i = new Intent(context, PaymentActivity.class);
+                    context.startActivity(i);
                 } else {
                     //Toast.makeText(context, "You Clicked " + result[position], Toast.LENGTH_LONG).show();
                 }

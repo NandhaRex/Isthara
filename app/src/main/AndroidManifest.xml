@@ -28,6 +28,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -82,8 +83,20 @@
             android:name="sendotp.key"
             android:value="@string/sendotp_key" />
 
-        <!--<activity android:name=".Activities.Checkout.Activity.CheckoutActivity" />-->
+        <!-- <activity android:name=".Activities.Checkout.Activity.CheckoutActivity" /> -->
         <activity android:name=".Activities.Checkout.Activity.CheckoutActivity">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".Activities.Payment.Activity.PaymentActivity"
+            android:label="@string/title_activity_payment"
+            android:theme="@style/AppTheme.NoActionBar">
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
 

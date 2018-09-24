@@ -14,11 +14,12 @@
 
         <item name="appRatingDialogCommentStyle">@style/MyDialogCommentStyle</item>
         <!-- Assign custom text styles for title, description, comment -->
-<!--        <item name="appRatingDialogTitleStyle">@style/MyDialogTitleStyle</item>
+        <!--        <item name="appRatingDialogTitleStyle">@style/MyDialogTitleStyle</item>
         <item name="appRatingDialogDescriptionStyle">@style/MyDialogDescriptionStyle</item>
         <item name="appRatingDialogNoteDescriptionStyle">@style/MyDialogNoteDescriptionStyle</item>
         <item name="appRatingDialogCommentStyle">@style/MyDialogCommentStyle</item>-->
     </style>
+
     <style name="ProgressTheme" parent="Widget.AppCompat.ProgressBar.Horizontal">
         <item name="colorAccent">@color/colorPrimaryDark</item>
     </style>
@@ -69,5 +70,14 @@
     <style name="MyDialogCommentStyle">
         <item name="android:visibility">gone</item>
     </style>
+
+
+    <!--<style name="CustomTabLayout" parent="Widget.Design.TabLayout">-->
+        <!--<item name="tabIndicatorColor">@android:color/black</item>-->
+        <!--<item name="tabIndicatorHeight">3dp</item>-->
+        <!--<item name="tabBackground">?attr/selectableItemBackground</item>-->
+        <!--<item name="tabSelectedTextColor">@android:color/black</item>-->
+        <!--<item name="tabTextColor">#2c2c2c</item>-->
+    <!--</style>-->
 
 </resources>
