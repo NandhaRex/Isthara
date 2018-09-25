@@ -6,10 +6,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.tao.isthara.Activities.Payment.Activity.PaymentActivity;
+import com.tao.isthara.Activities.Payment.Fragment.InvoiceFragement;
+import com.tao.isthara.Activities.Payment.Fragment.PaymentFragment;
 
 public class PaymentPagerAdapter extends FragmentPagerAdapter {
 
-    private String[] tabTitles = new String[]{"Invoice", "Payment",};
+    private String[] tabTitles = new String[]{"Invoices", "Payments",};
 
     public PaymentPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -19,7 +21,15 @@ public class PaymentPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return PaymentActivity.PlaceholderFragment.newInstance(position + 1);
+
+        // return PaymentActivity.PlaceholderFragment.newInstance(position + 1);
+        switch (position) {
+            case 0:
+                return new InvoiceFragement();
+            case 1:
+                return new PaymentFragment();
+        }
+        return null;
     }
 
     @Override
