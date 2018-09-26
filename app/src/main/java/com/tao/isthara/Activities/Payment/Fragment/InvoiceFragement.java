@@ -8,9 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.tao.isthara.Activities.Payment.Adapter.MonthlyInvoiceListAdapter;
 import com.tao.isthara.Model.CurrentMonthDueResponse;
+import com.tao.isthara.Model.LastFiveMonthDueResponse;
 import com.tao.isthara.R;
 import com.tao.isthara.Rest.ApiClient;
 import com.tao.isthara.Rest.ApiInterface;
@@ -23,10 +26,13 @@ import retrofit2.Response;
 
 public class InvoiceFragement extends Fragment {
 
+    private final ApiInterface apiService;
     private AppPreferences _appPrefs;
     private TextView lastMonthDue;
+    private ListView monthlyInvoiceListView;
 
     public InvoiceFragement() {
+        apiService = ApiClient.getClient().create(ApiInterface.class);
     }
 
     @Override
@@ -35,16 +41,38 @@ public class InvoiceFragement extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_invoice, container, false);
         _appPrefs = new AppPreferences(container.getContext());
         lastMonthDue = (TextView) rootView.findViewById(R.id.due_Amount);
+        monthlyInvoiceListView = (ListView) rootView.findViewById(R.id.monthlyInvoiceList);
         GetAndSetDueAmount();
+        GetMonthlyInvoiceList();
         return rootView;
     }
 
-    private void GetAndSetDueAmount() {
-        final String API_KEY = Global.BASE_URL + "GetCurrentMonthDueAmountByResidentDetailsId?ResidentDetailsId=" + _appPrefs.getResidentId();
-        //final String API_KEY = Global.BASE_URL + "GetCurrentMonthDueAmountByResidentDetailsId?ResidentDetailsId=558";
+    private void GetMonthlyInvoiceList() {
+        //final String API_KEY = Global.BASE_URL + "GetLastFiveMonthsDueAmountByResidentDetailsId?ResidentDetailsId=" + _appPrefs.getResidentId();
+        final String API_KEY = Global.BASE_URL + "GetLastFiveMonthsDueAmountByResidentDetailsId?ResidentDetailsId=558";
 
-        final ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+        Call<LastFiveMonthDueResponse> call = apiService.getLastFiveMonthDue(API_KEY);
+        call.enqueue(new Callback<LastFiveMonthDueResponse>() {
+            @Override
+            public void onResponse(Call<LastFiveMonthDueResponse> call, Response<LastFiveMonthDueResponse> response) {
+                if (response.body() != null)
+                {
+                    MonthlyInvoiceListAdapter adapter = new MonthlyInvoiceListAdapter(getActivity().getApplicationContext(),response.body().getResult());
+                    monthlyInvoiceListView.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LastFiveMonthDueResponse> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    private void GetAndSetDueAmount() {
+        // final String API_KEY = Global.BASE_URL + "GetCurrentMonthDueAmountByResidentDetailsId?ResidentDetailsId=" + _appPrefs.getResidentId();
+        final String API_KEY = Global.BASE_URL + "GetCurrentMonthDueAmountByResidentDetailsId?ResidentDetailsId=558";
 
         Call<CurrentMonthDueResponse> call = apiService.getLastMonthDue(API_KEY);
         call.enqueue(new Callback<CurrentMonthDueResponse>() {

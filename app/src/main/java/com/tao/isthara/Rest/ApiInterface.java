@@ -12,6 +12,7 @@ import com.tao.isthara.Model.DeclinedTicketResponse;
 import com.tao.isthara.Model.EventsHeaderImageResponse;
 import com.tao.isthara.Model.IssueDetailsResponse;
 import com.tao.isthara.Model.IssueListResponse;
+import com.tao.isthara.Model.LastFiveMonthDueResponse;
 import com.tao.isthara.Model.LoginResponse;
 import com.tao.isthara.Model.NewTokenRequest;
 import com.tao.isthara.Model.NewTokenResponse;
@@ -87,6 +88,9 @@ public interface ApiInterface {
 
     @GET
     Call<CurrentMonthDueResponse> getLastMonthDue(@Url String api_key);
+
+    @GET
+    Call<LastFiveMonthDueResponse> getLastFiveMonthDue(@Url String api_key);
 
 
     /*@GET("movie/{id}")
