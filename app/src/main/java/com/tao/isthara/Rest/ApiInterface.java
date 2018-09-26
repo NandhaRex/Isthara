@@ -6,6 +6,7 @@ import com.tao.isthara.Model.CheckOutResponse;
 import com.tao.isthara.Model.CheckoutReasonResponse;
 import com.tao.isthara.Model.CloseTicketRequest;
 import com.tao.isthara.Model.CloseTicketResponse;
+import com.tao.isthara.Model.CurrentMonthDueResponse;
 import com.tao.isthara.Model.DeclinedTicketRequest;
 import com.tao.isthara.Model.DeclinedTicketResponse;
 import com.tao.isthara.Model.EventsHeaderImageResponse;
@@ -83,6 +84,9 @@ public interface ApiInterface {
 
     @GET
     Call<CheckOutRequest> getCheckOutDetails(@Url String api_key);
+
+    @GET
+    Call<CurrentMonthDueResponse> getLastMonthDue(@Url String api_key);
 
 
     /*@GET("movie/{id}")

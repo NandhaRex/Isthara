@@ -18,7 +18,7 @@ public class PaymentFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_invoice, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_payment, container, false);
         return rootView;
     }
 }

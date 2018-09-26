@@ -58,7 +58,7 @@ public class PaymentActivity extends AppCompatActivity {
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         tabs = (TabLayout) findViewById(R.id.tab_layout);
-        mSectionsPagerAdapter = new PaymentPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new PaymentPagerAdapter(getApplicationContext(), getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -71,6 +71,7 @@ public class PaymentActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
