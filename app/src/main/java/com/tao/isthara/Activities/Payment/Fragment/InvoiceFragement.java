@@ -48,16 +48,15 @@ public class InvoiceFragement extends Fragment {
     }
 
     private void GetMonthlyInvoiceList() {
-        //final String API_KEY = Global.BASE_URL + "GetLastFiveMonthsDueAmountByResidentDetailsId?ResidentDetailsId=" + _appPrefs.getResidentId();
-        final String API_KEY = Global.BASE_URL + "GetLastFiveMonthsDueAmountByResidentDetailsId?ResidentDetailsId=558";
+        final String API_KEY = Global.BASE_URL + "GetLastFiveMonthsDueAmountByResidentDetailsId?ResidentDetailsId=" + _appPrefs.getResidentId();
+        //final String API_KEY = Global.BASE_URL + "GetLastFiveMonthsDueAmountByResidentDetailsId?ResidentDetailsId=558";
 
         Call<LastFiveMonthDueResponse> call = apiService.getLastFiveMonthDue(API_KEY);
         call.enqueue(new Callback<LastFiveMonthDueResponse>() {
             @Override
             public void onResponse(Call<LastFiveMonthDueResponse> call, Response<LastFiveMonthDueResponse> response) {
-                if (response.body() != null)
-                {
-                    MonthlyInvoiceListAdapter adapter = new MonthlyInvoiceListAdapter(getActivity().getApplicationContext(),response.body().getResult());
+                if (response.body() != null) {
+                    MonthlyInvoiceListAdapter adapter = new MonthlyInvoiceListAdapter(getActivity().getApplicationContext(), response.body().getResult());
                     monthlyInvoiceListView.setAdapter(adapter);
                 }
             }
@@ -71,8 +70,8 @@ public class InvoiceFragement extends Fragment {
     }
 
     private void GetAndSetDueAmount() {
-        // final String API_KEY = Global.BASE_URL + "GetCurrentMonthDueAmountByResidentDetailsId?ResidentDetailsId=" + _appPrefs.getResidentId();
-        final String API_KEY = Global.BASE_URL + "GetCurrentMonthDueAmountByResidentDetailsId?ResidentDetailsId=558";
+        final String API_KEY = Global.BASE_URL + "GetCurrentMonthDueAmountByResidentDetailsId?ResidentDetailsId=" + _appPrefs.getResidentId();
+        //final String API_KEY = Global.BASE_URL + "GetCurrentMonthDueAmountByResidentDetailsId?ResidentDetailsId=558";
 
         Call<CurrentMonthDueResponse> call = apiService.getLastMonthDue(API_KEY);
         call.enqueue(new Callback<CurrentMonthDueResponse>() {
